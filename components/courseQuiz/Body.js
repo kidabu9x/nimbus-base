@@ -1,0 +1,121 @@
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+import ValidateCode from "./components/ValidateCode";
+import SelectQuiz from "./components/SelectQuiz";
+
+const styles = theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "100vh",
+    position: "relative"
+  },
+  loadingBar: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%"
+  },
+  container: {
+    maxWidth: 450,
+    padding: theme.spacing(2),
+    textAlign: "center",
+    [theme.breakpoints.up("sm")]: {
+      width: "100%",
+      position: "absolute",
+      top: "30%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      border: "1px solid #dadce0",
+      padding: theme.spacing(6, 5, 4),
+      borderRadius: theme.spacing(1)
+    }
+  },
+  wrapper: {
+    position: "relative"
+  }
+});
+
+class Body extends Component {
+  render() {
+    const {
+      classes,
+      user,
+      step,
+      codeInvalid,
+      codeLoading,
+      onGetCode,
+      // general actions
+      onSwitchAccount,
+      onBackStep,
+      // quiz
+      quizzes,
+      quiz,
+      setQuiz,
+      quizzesLoading
+    } = this.props;
+    const Step = () => {
+      switch (step) {
+        case 1:
+          return (
+            <ValidateCode
+              user={user}
+              codeLoading={codeLoading}
+              codeInvalid={codeInvalid}
+              onGetCode={onGetCode}
+              onSwitchAccount={onSwitchAccount}
+            />
+          );
+        case 2:
+          return (
+            <SelectQuiz
+              quizzes={quizzes}
+              quiz={quiz}
+              setQuiz={setQuiz}
+              onBackStep={onBackStep}
+            />
+          );
+        default:
+          break;
+      }
+    };
+
+    return (
+      <div className={classes.root}>
+        <div className={classes.container}>
+          <div className={classes.wrapper}>
+            {/* <LinearProgress className={classes.loadingBar} /> */}
+            {codeLoading || quizzesLoading ? (
+              <LinearProgress className={classes.loadingBar} />
+            ) : null}
+            <Step />
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+Body.propTypes = {
+  // general object
+  classes: PropTypes.object,
+  user: PropTypes.object,
+  step: PropTypes.number,
+  // code
+  codeInvalid: PropTypes.bool,
+  codeLoading: PropTypes.bool,
+  onGetCode: PropTypes.func,
+  // quiz
+  quizzes: PropTypes.array,
+  quiz: PropTypes.object,
+  setQuiz: PropTypes.func,
+  quizzesLoading: PropTypes.bool,
+  // general actions
+  onSwitchAccount: PropTypes.func,
+  onBackStep: PropTypes.func
+};
+
+export default withStyles(styles)(Body);
