@@ -5,6 +5,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 import ValidateCode from "./components/ValidateCode";
 import SelectQuiz from "./components/SelectQuiz";
+import Question from "./components/Question";
 
 const styles = theme => ({
   root: {
@@ -54,8 +55,8 @@ class Body extends Component {
       // quiz
       quizzes,
       quiz,
-      setQuiz,
-      quizzesLoading
+      quizzesLoading,
+      onSetQuiz
     } = this.props;
     const Step = () => {
       switch (step) {
@@ -74,10 +75,12 @@ class Body extends Component {
             <SelectQuiz
               quizzes={quizzes}
               quiz={quiz}
-              setQuiz={setQuiz}
+              onSetQuiz={onSetQuiz}
               onBackStep={onBackStep}
             />
           );
+        case 3:
+          return <Question />;
         default:
           break;
       }
@@ -115,7 +118,8 @@ Body.propTypes = {
   quizzesLoading: PropTypes.bool,
   // general actions
   onSwitchAccount: PropTypes.func,
-  onBackStep: PropTypes.func
+  onBackStep: PropTypes.func,
+  onSetQuiz: PropTypes.func
 };
 
 export default withStyles(styles)(Body);

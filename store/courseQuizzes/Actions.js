@@ -36,7 +36,7 @@ export const getQuizzes = () => async (dispatch, getState) => {
 export const setQuiz = quizId => (dispatch, getState) => {
   const rootState = getState();
   const { quizzes } = rootState.courseQuizzes;
-  let quiz = quizzes.findOne(quiz => quiz._id === quizId);
+  let quiz = quizzes.find(quiz => quiz._id === quizId);
   dispatch({
     type: SET_QUIZ,
     payload: {

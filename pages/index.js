@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import Layout from "../layouts/default";
 
 class Home extends Component {
-  static async getInitialProps({ ctx }) {
-    console.log(ctx);
+  static async getInitialProps() {
     return {};
   }
   render() {

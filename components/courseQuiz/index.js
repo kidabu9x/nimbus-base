@@ -6,6 +6,7 @@ import Body from "./Body";
 
 import { getCode } from "../../store/courseCode/Actions";
 import { getQuizzes, setQuiz } from "../../store/courseQuizzes/Actions";
+import { getQuestions } from "../../store/courseQuizQuestions/Actions";
 import { logout } from "../../store/auth/Actions";
 
 const mapStateToProps = state => ({
@@ -14,14 +15,17 @@ const mapStateToProps = state => ({
   codeInvalid: state.courseCode.isInvalid,
   quiz: state.courseQuizzes.quiz,
   quizzes: state.courseQuizzes.quizzes,
-  quizzesLoading: state.courseQuizzes.loading
+  quizzesLoading: state.courseQuizzes.loading,
+  questions: state.courseQuizQuestions.questions,
+  questionsLoading: state.courseQuizQuestions.loading
 });
 
 const mapDispatchToProps = {
   getCode,
   logout,
   getQuizzes,
-  setQuiz
+  setQuiz,
+  getQuestions
 };
 
 class Quiz extends Component {
@@ -49,7 +53,13 @@ class Quiz extends Component {
   onSetQuiz = async quizId => {
     const { setQuiz } = this.props;
     setQuiz(quizId);
+    this.onGetQuestion();
     this.nextStep();
+  };
+
+  onGetQuestion = async () => {
+    const { getQuestions } = this.props;
+    getQuestions();
   };
 
   nextStep = () => {
@@ -104,17 +114,19 @@ class Quiz extends Component {
 }
 
 Quiz.propTypes = {
+  logout: PropTypes.func,
   getCode: PropTypes.func,
   user: PropTypes.object,
   codeInvalid: PropTypes.bool,
   codeLoading: PropTypes.bool,
-  logout: PropTypes.func,
+  getQuestions: PropTypes.func,
   // quiz
   quizzes: PropTypes.array,
   quiz: PropTypes.object,
   getQuizzes: PropTypes.func,
   setQuiz: PropTypes.func,
-  quizzesLoading: PropTypes.bool
+  quizzesLoading: PropTypes.bool,
+  questionsLoading: PropTypes.bool
 };
 
 export default connect(
