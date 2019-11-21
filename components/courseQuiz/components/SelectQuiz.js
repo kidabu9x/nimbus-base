@@ -118,7 +118,7 @@ const ValidateCode = props => {
 
 ValidateCode.propTypes = {
   quizzes: PropTypes.array,
-  quiz: PropTypes.bool,
+  quiz: PropTypes.object,
   onSetQuiz: PropTypes.func,
   onBackStep: PropTypes.func
 };

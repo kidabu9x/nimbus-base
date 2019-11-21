@@ -56,7 +56,15 @@ class Body extends Component {
       quizzes,
       quiz,
       quizzesLoading,
-      onSetQuiz
+      onSetQuiz,
+
+      // questions
+      questions,
+      questionIndex,
+      menuAvailable,
+      showMenu,
+      onSetQuestionIndex,
+      onToggleShowMenu
     } = this.props;
     const Step = () => {
       switch (step) {
@@ -80,7 +88,16 @@ class Body extends Component {
             />
           );
         case 3:
-          return <Question />;
+          return (
+            <Question
+              questions={questions}
+              questionIndex={questionIndex}
+              menuAvailable={menuAvailable}
+              showMenu={showMenu}
+              onSetQuestionIndex={onSetQuestionIndex}
+              onToggleShowMenu={onToggleShowMenu}
+            />
+          );
         default:
           break;
       }
@@ -112,6 +129,13 @@ Body.propTypes = {
   codeLoading: PropTypes.bool,
   onGetCode: PropTypes.func,
   // quiz
+  questions: PropTypes.array,
+  questionIndex: PropTypes.number,
+  menuAvailable: PropTypes.bool,
+  showMenu: PropTypes.bool,
+  onToggleShowMenu: PropTypes.func,
+  onSetQuestionIndex: PropTypes.func,
+  // questions
   quizzes: PropTypes.array,
   quiz: PropTypes.object,
   setQuiz: PropTypes.func,

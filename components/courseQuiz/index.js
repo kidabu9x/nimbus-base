@@ -6,7 +6,12 @@ import Body from "./Body";
 
 import { getCode } from "../../store/courseCode/Actions";
 import { getQuizzes, setQuiz } from "../../store/courseQuizzes/Actions";
-import { getQuestions } from "../../store/courseQuizQuestions/Actions";
+import {
+  getQuestions,
+  setQuestionIndex,
+  toggleMenuAvailable,
+  toggleShowMenu
+} from "../../store/courseQuizQuestions/Actions";
 import { logout } from "../../store/auth/Actions";
 
 const mapStateToProps = state => ({
@@ -17,7 +22,10 @@ const mapStateToProps = state => ({
   quizzes: state.courseQuizzes.quizzes,
   quizzesLoading: state.courseQuizzes.loading,
   questions: state.courseQuizQuestions.questions,
-  questionsLoading: state.courseQuizQuestions.loading
+  questionsLoading: state.courseQuizQuestions.loading,
+  questionIndex: state.courseQuizQuestions.index,
+  menuAvailable: state.courseQuizQuestions.menuAvailable,
+  showMenu: state.courseQuizQuestions.showMenu
 });
 
 const mapDispatchToProps = {
@@ -25,7 +33,10 @@ const mapDispatchToProps = {
   logout,
   getQuizzes,
   setQuiz,
-  getQuestions
+  getQuestions,
+  setQuestionIndex,
+  toggleMenuAvailable,
+  toggleShowMenu
 };
 
 class Quiz extends Component {
@@ -58,8 +69,30 @@ class Quiz extends Component {
   };
 
   onGetQuestion = async () => {
-    const { getQuestions } = this.props;
+    const { questions, getQuestions } = this.props;
     getQuestions();
+    if (questions.length) {
+      this.onSetQuestionIndex();
+    }
+  };
+
+  onSetQuestionIndex = index => {
+    const { questions, menuAvailable, setQuestionIndex } = this.props;
+    index = typeof index === "number" && index > -1 ? index : 0;
+    setQuestionIndex(index);
+    if (index === questions.length - 1 && !menuAvailable) {
+      this.onToggleMenuAvaialbe();
+    }
+  };
+
+  onToggleMenuAvaialbe = () => {
+    const { toggleMenuAvaialbe } = this.props;
+    toggleMenuAvaialbe();
+  };
+
+  onToggleShowMenu = () => {
+    const { toggleShowMenu } = this.props;
+    toggleShowMenu();
   };
 
   nextStep = () => {
@@ -91,7 +124,13 @@ class Quiz extends Component {
       codeInvalid,
       quizzes,
       quiz,
-      quizzesLoading
+      quizzesLoading,
+
+      // testing property
+      questions,
+      questionIndex,
+      menuAvailable,
+      showMenu
     } = this.props;
     return (
       <Layout>
@@ -107,6 +146,13 @@ class Quiz extends Component {
           onSetQuiz={this.onSetQuiz}
           onSwitchAccount={this.onSwitchAccount}
           onBackStep={this.backStep}
+          // Question
+          questions={questions}
+          questionIndex={questionIndex}
+          menuAvailable={menuAvailable}
+          showMenu={showMenu}
+          onSetQuestionIndex={this.onSetQuestionIndex}
+          onToggleShowMenu={this.onToggleShowMenu}
         ></Body>
       </Layout>
     );
@@ -120,6 +166,14 @@ Quiz.propTypes = {
   codeInvalid: PropTypes.bool,
   codeLoading: PropTypes.bool,
   getQuestions: PropTypes.func,
+  questions: PropTypes.array,
+  toggleMenuAvaialbe: PropTypes.func,
+  toggleShowMenu: PropTypes.func,
+  showMenu: PropTypes.bool,
+  menuAvailable: PropTypes.bool,
+  questionIndex: PropTypes.number,
+  setQuestionIndex: PropTypes.func,
+
   // quiz
   quizzes: PropTypes.array,
   quiz: PropTypes.object,
