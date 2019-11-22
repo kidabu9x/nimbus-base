@@ -3,7 +3,8 @@ import {
   QUESTIONS_LOADING,
   SET_QUESTION_INDEX,
   TOGGLE_SHOW_MENU,
-  TOGGLE_MENU_AVAILABLE
+  TOGGLE_MENU_AVAILABLE,
+  SET_BOOKMARK
 } from "./ActionTypes";
 import Api from "../../api";
 
@@ -83,5 +84,22 @@ export const toggleMenuAvailable = () => async dispatch => {
 export const toggleShowMenu = () => async dispatch => {
   dispatch({
     type: TOGGLE_SHOW_MENU
+  });
+};
+
+export const bookmark = () => async (dispatch, getState) => {
+  const rootState = getState();
+  let { bookmarks, index } = rootState.courseQuizQuestions;
+  const currentIndex = bookmarks.indexOf(index);
+  if (currentIndex === -1) {
+    bookmarks.push(index);
+  } else {
+    bookmarks.splice(currentIndex, 1);
+  }
+  dispatch({
+    type: SET_BOOKMARK,
+    payload: {
+      bookmarks: [...bookmarks]
+    }
   });
 };

@@ -60,11 +60,14 @@ class Body extends Component {
 
       // questions
       questions,
+      bookmarks,
       questionIndex,
       menuAvailable,
       showMenu,
       onSetQuestionIndex,
-      onToggleShowMenu
+      onToggleShowMenu,
+      onBookmark,
+      onToggleMenuAvailable
     } = this.props;
     const Step = () => {
       switch (step) {
@@ -91,11 +94,14 @@ class Body extends Component {
           return (
             <Question
               questions={questions}
+              bookmarks={bookmarks}
               questionIndex={questionIndex}
               menuAvailable={menuAvailable}
               showMenu={showMenu}
               onSetQuestionIndex={onSetQuestionIndex}
               onToggleShowMenu={onToggleShowMenu}
+              onBookmark={onBookmark}
+              onToggleMenuAvailable={onToggleMenuAvailable}
             />
           );
         default:
@@ -130,11 +136,14 @@ Body.propTypes = {
   onGetCode: PropTypes.func,
   // quiz
   questions: PropTypes.array,
+  bookmarks: PropTypes.array,
   questionIndex: PropTypes.number,
   menuAvailable: PropTypes.bool,
   showMenu: PropTypes.bool,
   onToggleShowMenu: PropTypes.func,
   onSetQuestionIndex: PropTypes.func,
+  onBookmark: PropTypes.func,
+  onToggleMenuAvailable: PropTypes.func,
   // questions
   quizzes: PropTypes.array,
   quiz: PropTypes.object,

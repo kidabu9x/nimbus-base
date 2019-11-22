@@ -10,7 +10,8 @@ import {
   getQuestions,
   setQuestionIndex,
   toggleMenuAvailable,
-  toggleShowMenu
+  toggleShowMenu,
+  bookmark
 } from "../../store/courseQuizQuestions/Actions";
 import { logout } from "../../store/auth/Actions";
 
@@ -25,7 +26,8 @@ const mapStateToProps = state => ({
   questionsLoading: state.courseQuizQuestions.loading,
   questionIndex: state.courseQuizQuestions.index,
   menuAvailable: state.courseQuizQuestions.menuAvailable,
-  showMenu: state.courseQuizQuestions.showMenu
+  showMenu: state.courseQuizQuestions.showMenu,
+  bookmarks: state.courseQuizQuestions.bookmarks
 });
 
 const mapDispatchToProps = {
@@ -36,7 +38,8 @@ const mapDispatchToProps = {
   getQuestions,
   setQuestionIndex,
   toggleMenuAvailable,
-  toggleShowMenu
+  toggleShowMenu,
+  bookmark
 };
 
 class Quiz extends Component {
@@ -69,25 +72,23 @@ class Quiz extends Component {
   };
 
   onGetQuestion = async () => {
-    const { questions, getQuestions } = this.props;
-    getQuestions();
+    const { getQuestions } = this.props;
+    await getQuestions();
+    const { questions } = this.props;
     if (questions.length) {
       this.onSetQuestionIndex();
     }
   };
 
   onSetQuestionIndex = index => {
-    const { questions, menuAvailable, setQuestionIndex } = this.props;
+    const { setQuestionIndex } = this.props;
     index = typeof index === "number" && index > -1 ? index : 0;
     setQuestionIndex(index);
-    if (index === questions.length - 1 && !menuAvailable) {
-      this.onToggleMenuAvaialbe();
-    }
   };
 
-  onToggleMenuAvaialbe = () => {
-    const { toggleMenuAvaialbe } = this.props;
-    toggleMenuAvaialbe();
+  onToggleMenuAvailable = () => {
+    const { toggleMenuAvailable } = this.props;
+    toggleMenuAvailable();
   };
 
   onToggleShowMenu = () => {
@@ -116,6 +117,11 @@ class Quiz extends Component {
     logout();
   };
 
+  onBookmark = () => {
+    const { bookmark } = this.props;
+    bookmark();
+  };
+
   render() {
     const { step } = this.state;
     const {
@@ -130,7 +136,8 @@ class Quiz extends Component {
       questions,
       questionIndex,
       menuAvailable,
-      showMenu
+      showMenu,
+      bookmarks
     } = this.props;
     return (
       <Layout>
@@ -148,11 +155,14 @@ class Quiz extends Component {
           onBackStep={this.backStep}
           // Question
           questions={questions}
+          bookmarks={bookmarks}
           questionIndex={questionIndex}
           menuAvailable={menuAvailable}
           showMenu={showMenu}
           onSetQuestionIndex={this.onSetQuestionIndex}
           onToggleShowMenu={this.onToggleShowMenu}
+          onBookmark={this.onBookmark}
+          onToggleMenuAvailable={this.onToggleMenuAvailable}
         ></Body>
       </Layout>
     );
@@ -167,13 +177,14 @@ Quiz.propTypes = {
   codeLoading: PropTypes.bool,
   getQuestions: PropTypes.func,
   questions: PropTypes.array,
-  toggleMenuAvaialbe: PropTypes.func,
+  bookmarks: PropTypes.array,
+  toggleMenuAvailable: PropTypes.func,
   toggleShowMenu: PropTypes.func,
   showMenu: PropTypes.bool,
   menuAvailable: PropTypes.bool,
   questionIndex: PropTypes.number,
   setQuestionIndex: PropTypes.func,
-
+  bookmark: PropTypes.func,
   // quiz
   quizzes: PropTypes.array,
   quiz: PropTypes.object,

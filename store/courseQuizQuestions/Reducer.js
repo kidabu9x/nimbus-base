@@ -3,11 +3,13 @@ import {
   GET_QUESTIONS,
   TOGGLE_MENU_AVAILABLE,
   TOGGLE_SHOW_MENU,
-  SET_QUESTION_INDEX
+  SET_QUESTION_INDEX,
+  SET_BOOKMARK
 } from "./ActionTypes";
 
 const initState = {
   questions: [],
+  bookmarks: [],
   index: -1,
   count: 0,
   loading: false,
@@ -40,6 +42,12 @@ export default function(state = initState, action) {
       return {
         ...state,
         showMenu: !state.showMenu
+      };
+
+    case SET_BOOKMARK:
+      return {
+        ...state,
+        bookmarks: action.payload.bookmarks
       };
 
     case QUESTIONS_LOADING:

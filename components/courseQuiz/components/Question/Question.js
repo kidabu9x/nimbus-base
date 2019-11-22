@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-// import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 // import { makeStyles } from "@material-ui/core/styles";
 
 // const styles = makeStyles(theme => ({}));
@@ -12,9 +12,9 @@ const Question = props => {
 
   return (
     <div>
-      <div>
+      <Typography variant="h6" gutterBottom>
         Câu {index + 1}/{total}
-      </div>
+      </Typography>
       <div>{question}</div>
     </div>
   );

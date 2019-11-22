@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
 import QuestionDetail from "./Question/Question";
+import Actions from "./Question/Actions";
 
 const styles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(2),
     textAlign: "left"
   }
 }));
@@ -14,11 +15,14 @@ const styles = makeStyles(theme => ({
 const Question = props => {
   const {
     questions,
-    questionIndex
-    // menuAvailable,
+    questionIndex,
+    menuAvailable,
+    bookmarks,
     // showMenu,
-    // onSetQuestionIndex,
-    // onToggleShowMenu
+    onSetQuestionIndex,
+    onToggleShowMenu,
+    onBookmark,
+    onToggleMenuAvailable
   } = props;
   const classes = styles();
   const [question, setQuestion] = useState(null);
@@ -38,17 +42,30 @@ const Question = props => {
         index={questionIndex}
         total={questions.length}
       />
+      <Actions
+        index={questionIndex}
+        total={questions.length}
+        menuAvailable={menuAvailable}
+        bookmarks={bookmarks}
+        onSetIndex={onSetQuestionIndex}
+        onShowMenu={onToggleShowMenu}
+        onBookmark={onBookmark}
+        onToggleMenuAvailable={onToggleMenuAvailable}
+      />
     </div>
   );
 };
 
 Question.propTypes = {
   questions: PropTypes.array,
+  bookmarks: PropTypes.array,
   questionIndex: PropTypes.number,
   menuAvailable: PropTypes.bool,
   showMenu: PropTypes.bool,
   onSetQuestionIndex: PropTypes.func,
-  onToggleShowMenu: PropTypes.func
+  onToggleShowMenu: PropTypes.func,
+  onBookmark: PropTypes.func,
+  onToggleMenuAvailable: PropTypes.func
 };
 
 export default Question;
