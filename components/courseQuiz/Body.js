@@ -6,6 +6,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import ValidateCode from "./components/ValidateCode";
 import SelectQuiz from "./components/SelectQuiz";
 import Question from "./components/Question";
+import Summary from "./components/Summary";
 
 const styles = theme => ({
   root: {
@@ -102,6 +103,8 @@ class Body extends Component {
               onBookmark={onBookmark}
             />
           );
+        case 4:
+          return <Summary questions={questions} bookmarks={bookmarks} />;
         default:
           break;
       }

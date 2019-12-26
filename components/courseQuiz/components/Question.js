@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import QuestionDetail from "./Question/Question";
+import Answers from "./Question/Answers";
 import Actions from "./Question/Actions";
 
 const styles = makeStyles(theme => ({
@@ -41,6 +42,7 @@ const Question = props => {
         index={questionIndex}
         total={questions.length}
       />
+      <Answers type={question.type} answers={question.answers} />
       <Actions
         index={questionIndex}
         total={questions.length}

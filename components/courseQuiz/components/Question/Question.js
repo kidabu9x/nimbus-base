@@ -1,21 +1,29 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-// import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
-// const styles = makeStyles(theme => ({}));
+const styles = makeStyles(theme => ({
+  questionIndex: {
+    marginBottom: theme.spacing(1.5)
+  }
+}));
 
 const Question = props => {
   const { question, index, total } = props;
-  //   const classes = styles();
+  const classes = styles();
   if (!question) return null;
 
   return (
     <div>
-      <Typography variant="h6" gutterBottom>
+      <Typography
+        className={classes.questionIndex}
+        variant="body2"
+        gutterBottom
+      >
         Câu {index + 1}/{total}
       </Typography>
-      <div>{question}</div>
+      <Typography variant="h5">{question}</Typography>
     </div>
   );
 };

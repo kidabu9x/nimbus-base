@@ -104,9 +104,10 @@ class Quiz extends Component {
   };
 
   onToggleShowMenu = () => {
-    const { menuAvailable, toggleShowMenu } = this.props;
+    const { menuAvailable, toggleShowMenu, setStep } = this.props;
     if (!menuAvailable) this.onToggleMenuAvailable();
     toggleShowMenu();
+    setStep(4);
   };
 
   onSwitchAccount = () => {
