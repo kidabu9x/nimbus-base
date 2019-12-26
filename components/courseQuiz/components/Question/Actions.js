@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Button, makeStyles } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
@@ -19,7 +19,11 @@ const styles = makeStyles(theme => ({
   button: {
     textTransform: "unset"
   },
-  bookedButton: {},
+  bookmarkedButton: {
+    backgroundColor: "#f1c40f",
+    color: "#fff",
+    marginRight: theme.spacing(0.5)
+  },
   buttonNoPdLeft: {
     paddingLeft: 0
   },
@@ -42,8 +46,7 @@ const Actions = props => {
     bookmarks,
     onBookmark,
     onShowMenu,
-    onSetIndex,
-    onToggleMenuAvailable
+    onSetIndex
   } = props;
   const [booked, setBooked] = useState(false);
   const buttonSize = "medium";
@@ -62,7 +65,6 @@ const Actions = props => {
   };
 
   const onMenuClick = () => {
-    if (!menuAvailable) onToggleMenuAvailable();
     onShowMenu();
   };
 
@@ -83,7 +85,7 @@ const Actions = props => {
       <div className={classes.actionsRight}>
         {booked ? (
           <Button
-            className={`${classes.button} ${classes.bookedButton}`}
+            className={`${classes.button} ${classes.bookmarkedButton}`}
             size={buttonSize}
             onClick={onBookmark}
           >
@@ -124,17 +126,6 @@ const Actions = props => {
       </div>
     </div>
   );
-};
-
-Actions.propTypes = {
-  index: PropTypes.number,
-  total: PropTypes.number,
-  menuAvailable: PropTypes.bool,
-  bookmarks: PropTypes.array,
-  onBookmark: PropTypes.func,
-  onShowMenu: PropTypes.func,
-  onSetIndex: PropTypes.func,
-  onToggleMenuAvailable: PropTypes.func
 };
 
 export default Actions;

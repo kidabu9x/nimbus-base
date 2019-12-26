@@ -3,6 +3,7 @@ import courses from "./courses/Reducer";
 import courseCode from "./courseCode/Reducer";
 import courseQuizzes from "./courseQuizzes/Reducer";
 import courseQuizQuestions from "./courseQuizQuestions/Reducer";
+import courseQuizTest from "./courseQuizTest/Reducer";
 import auth from "./auth/Reducer";
 
 export default combineReducers({
@@ -10,5 +11,6 @@ export default combineReducers({
   courses,
   courseCode,
   courseQuizzes,
-  courseQuizQuestions
+  courseQuizQuestions,
+  courseQuizTest
 });

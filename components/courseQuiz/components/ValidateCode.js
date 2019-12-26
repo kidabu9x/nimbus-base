@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { GoogleLogout } from "react-google-login";
@@ -162,14 +162,6 @@ const ValidateCode = props => {
       </form>
     </div>
   );
-};
-
-ValidateCode.propTypes = {
-  user: PropTypes.object,
-  codeInvalid: PropTypes.bool,
-  codeLoading: PropTypes.bool,
-  onGetCode: PropTypes.func,
-  onSwitchAccount: PropTypes.func
 };
 
 export default ValidateCode;

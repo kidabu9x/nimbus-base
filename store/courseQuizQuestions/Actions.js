@@ -1,11 +1,4 @@
-import {
-  GET_QUESTIONS,
-  QUESTIONS_LOADING,
-  SET_QUESTION_INDEX,
-  TOGGLE_SHOW_MENU,
-  TOGGLE_MENU_AVAILABLE,
-  SET_BOOKMARK
-} from "./ActionTypes";
+import { GET_QUESTIONS, QUESTIONS_LOADING } from "./ActionTypes";
 import Api from "../../api";
 
 const getEndPoint = (courseId, quizId) => {
@@ -41,16 +34,10 @@ export const getQuestions = () => async (dispatch, getState) => {
   });
 };
 
-export const setQuestionIndex = index => async (dispatch, getState) => {
-  dispatch({
-    type: SET_QUESTION_INDEX,
-    payload: {
-      index
-    }
-  });
-
+export const resetQuestion = () => async (dispatch, getState) => {
   const rootState = getState();
   const { quiz } = rootState.courseQuizzes;
+  const { index } = rootState.courseQuizTest;
   const { questions, menuAvailable } = rootState.courseQuizQuestions;
   if (!menuAvailable && !!quiz.ask_questions_again_when_returning) {
     let question = questions[index];
@@ -72,34 +59,12 @@ export const setQuestionIndex = index => async (dispatch, getState) => {
         });
       }
     }
+
+    dispatch({
+      type: GET_QUESTIONS,
+      payload: {
+        questions: [...questions]
+      }
+    });
   }
-};
-
-export const toggleMenuAvailable = () => async dispatch => {
-  dispatch({
-    type: TOGGLE_MENU_AVAILABLE
-  });
-};
-
-export const toggleShowMenu = () => async dispatch => {
-  dispatch({
-    type: TOGGLE_SHOW_MENU
-  });
-};
-
-export const bookmark = () => async (dispatch, getState) => {
-  const rootState = getState();
-  let { bookmarks, index } = rootState.courseQuizQuestions;
-  const currentIndex = bookmarks.indexOf(index);
-  if (currentIndex === -1) {
-    bookmarks.push(index);
-  } else {
-    bookmarks.splice(currentIndex, 1);
-  }
-  dispatch({
-    type: SET_BOOKMARK,
-    payload: {
-      bookmarks: [...bookmarks]
-    }
-  });
 };

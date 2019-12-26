@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 
 import QuestionDetail from "./Question/Question";
@@ -21,8 +21,7 @@ const Question = props => {
     // showMenu,
     onSetQuestionIndex,
     onToggleShowMenu,
-    onBookmark,
-    onToggleMenuAvailable
+    onBookmark
   } = props;
   const classes = styles();
   const [question, setQuestion] = useState(null);
@@ -50,22 +49,9 @@ const Question = props => {
         onSetIndex={onSetQuestionIndex}
         onShowMenu={onToggleShowMenu}
         onBookmark={onBookmark}
-        onToggleMenuAvailable={onToggleMenuAvailable}
       />
     </div>
   );
-};
-
-Question.propTypes = {
-  questions: PropTypes.array,
-  bookmarks: PropTypes.array,
-  questionIndex: PropTypes.number,
-  menuAvailable: PropTypes.bool,
-  showMenu: PropTypes.bool,
-  onSetQuestionIndex: PropTypes.func,
-  onToggleShowMenu: PropTypes.func,
-  onBookmark: PropTypes.func,
-  onToggleMenuAvailable: PropTypes.func
 };
 
 export default Question;

@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -39,7 +39,7 @@ const styles = makeStyles(theme => ({
 
 const ValidateCode = props => {
   const [quizId, setQuizId] = useState("");
-  const { quizzes, quiz, onSetQuiz, onBackStep } = props;
+  const { quizzes, quiz, onSetQuiz, onSetStep } = props;
 
   const classes = styles();
 
@@ -56,7 +56,7 @@ const ValidateCode = props => {
   };
 
   const onBack = () => {
-    onBackStep();
+    onSetStep(1);
   };
 
   return (
@@ -96,7 +96,7 @@ const ValidateCode = props => {
       <div className={classes.actions}>
         <div className={classes.actionWrapper}>
           <Button color="primary" className={classes.action} onClick={onBack}>
-            Quay lại
+            Nhập mã khác
           </Button>
         </div>
         <div
@@ -114,13 +114,6 @@ const ValidateCode = props => {
       </div>
     </div>
   );
-};
-
-ValidateCode.propTypes = {
-  quizzes: PropTypes.array,
-  quiz: PropTypes.object,
-  onSetQuiz: PropTypes.func,
-  onBackStep: PropTypes.func
 };
 
 export default ValidateCode;

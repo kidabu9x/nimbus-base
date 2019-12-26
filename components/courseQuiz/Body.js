@@ -1,5 +1,5 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
@@ -51,7 +51,7 @@ class Body extends Component {
       onGetCode,
       // general actions
       onSwitchAccount,
-      onBackStep,
+      onSetStep,
       // quiz
       quizzes,
       quiz,
@@ -66,8 +66,7 @@ class Body extends Component {
       showMenu,
       onSetQuestionIndex,
       onToggleShowMenu,
-      onBookmark,
-      onToggleMenuAvailable
+      onBookmark
     } = this.props;
     const Step = () => {
       switch (step) {
@@ -87,7 +86,7 @@ class Body extends Component {
               quizzes={quizzes}
               quiz={quiz}
               onSetQuiz={onSetQuiz}
-              onBackStep={onBackStep}
+              onSetStep={onSetStep}
             />
           );
         case 3:
@@ -101,7 +100,6 @@ class Body extends Component {
               onSetQuestionIndex={onSetQuestionIndex}
               onToggleShowMenu={onToggleShowMenu}
               onBookmark={onBookmark}
-              onToggleMenuAvailable={onToggleMenuAvailable}
             />
           );
         default:
@@ -124,35 +122,5 @@ class Body extends Component {
     );
   }
 }
-
-Body.propTypes = {
-  // general object
-  classes: PropTypes.object,
-  user: PropTypes.object,
-  step: PropTypes.number,
-  // code
-  codeInvalid: PropTypes.bool,
-  codeLoading: PropTypes.bool,
-  onGetCode: PropTypes.func,
-  // quiz
-  questions: PropTypes.array,
-  bookmarks: PropTypes.array,
-  questionIndex: PropTypes.number,
-  menuAvailable: PropTypes.bool,
-  showMenu: PropTypes.bool,
-  onToggleShowMenu: PropTypes.func,
-  onSetQuestionIndex: PropTypes.func,
-  onBookmark: PropTypes.func,
-  onToggleMenuAvailable: PropTypes.func,
-  // questions
-  quizzes: PropTypes.array,
-  quiz: PropTypes.object,
-  setQuiz: PropTypes.func,
-  quizzesLoading: PropTypes.bool,
-  // general actions
-  onSwitchAccount: PropTypes.func,
-  onBackStep: PropTypes.func,
-  onSetQuiz: PropTypes.func
-};
 
 export default withStyles(styles)(Body);
