@@ -1,8 +1,16 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { makeStyles, Grid, Typography, Button } from "@material-ui/core";
-import { grey, yellow } from "@material-ui/core/colors";
+import {
+  makeStyles,
+  Grid,
+  Typography,
+  Button,
+  CircularProgress
+} from "@material-ui/core";
+import { grey, yellow, green, red } from "@material-ui/core/colors";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
+import DoneIcon from "@material-ui/icons/Done";
+import ErrorIcon from "@material-ui/icons/Error";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -34,6 +42,12 @@ const styles = makeStyles(theme => ({
   },
   bookmarkIcon: {
     color: yellow[700]
+  },
+  doneIcon: {
+    color: green[600]
+  },
+  errorIcon: {
+    color: red[400]
   },
   actionsContainer: {
     flexShrink: 0,
@@ -68,7 +82,14 @@ const Header = ({ classes }) => {
   );
 };
 
-const Question = ({ index, classes, isBookmarked, onGoToQuestion }) => {
+const Question = ({
+  index,
+  classes,
+  isBookmarked,
+  submitted,
+  isCorrect,
+  onGoToQuestion
+}) => {
   const handleClick = () => {
     onGoToQuestion(index);
   };
@@ -81,7 +102,13 @@ const Question = ({ index, classes, isBookmarked, onGoToQuestion }) => {
           </Typography>
         </Grid>
         <Grid item xs={4}>
-          <Typography variant="body2"></Typography>
+          {submitted ? (
+            isCorrect ? (
+              <DoneIcon className={classes.doneIcon} />
+            ) : (
+              <ErrorIcon className={classes.errorIcon} />
+            )
+          ) : null}
         </Grid>
         <Grid item xs={4}>
           {isBookmarked ? (
@@ -93,19 +120,31 @@ const Question = ({ index, classes, isBookmarked, onGoToQuestion }) => {
   );
 };
 
-const Actions = ({ classes, onSubmitClick }) => {
+const Actions = ({ classes, submitting, onSubmitClick }) => {
   return (
     <div className={`${classes.actionsContainer}`}>
-      <Button
-        className={`${classes.actionPrimary}`}
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-        onClick={onSubmitClick}
-      >
-        Chấm điểm
-      </Button>
+      {submitting ? (
+        <CircularProgress size="38px" />
+      ) : (
+        <Button
+          className={`${classes.actionPrimary}`}
+          variant="contained"
+          color="primary"
+          fullWidth
+          size="large"
+          onClick={onSubmitClick}
+        >
+          Chấm điểm
+        </Button>
+      )}
+    </div>
+  );
+};
+
+const Result = ({ classes, totalQuestions, totalCorrectQuestions }) => {
+  return (
+    <div className={classes.actionsContainer}>
+      Bạn đã làm đúng: {totalCorrectQuestions} / {totalQuestions} câu
     </div>
   );
 };
@@ -116,6 +155,8 @@ const Summary = props => {
     bookmarks,
     submitting,
     submitted,
+    totalQuestions,
+    totalCorrectQuestions,
     onSetQuestionIndex,
     onSubmit
   } = props;
@@ -141,11 +182,26 @@ const Summary = props => {
             classes={classes}
             index={index}
             isBookmarked={bookmarks.indexOf(index) > -1}
+            isCorrect={question.is_match}
+            submitted={submitted}
             onGoToQuestion={onGoToQuestion}
           />
         ))}
       </ul>
-      <Actions classes={classes} onSubmitClick={onSubmitClick} />
+      {!submitted ? (
+        <Actions
+          classes={classes}
+          submitting={submitting}
+          submitted={submitted}
+          onSubmitClick={onSubmitClick}
+        />
+      ) : (
+        <Result
+          classes={classes}
+          totalQuestions={totalQuestions}
+          totalCorrectQuestions={totalCorrectQuestions}
+        />
+      )}
     </div>
   );
 };

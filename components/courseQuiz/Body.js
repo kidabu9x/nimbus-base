@@ -71,7 +71,9 @@ class Body extends Component {
       onBookmark,
       submitting,
       submitted,
-      onSubmit
+      onSubmit,
+      totalQuestions,
+      totalCorrectQuestions
     } = this.props;
     const Step = () => {
       switch (step) {
@@ -114,6 +116,8 @@ class Body extends Component {
               bookmarks={bookmarks}
               submitting={submitting}
               submitted={submitted}
+              totalQuestions={totalQuestions}
+              totalCorrectQuestions={totalCorrectQuestions}
               onSetQuestionIndex={onSetQuestionIndex}
               onSubmit={onSubmit}
             />

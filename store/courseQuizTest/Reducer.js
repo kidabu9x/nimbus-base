@@ -7,6 +7,7 @@ import {
   TOGGLE_SUBMITTING,
   TOGGLE_SUBMITTED,
   QUESTIONS_LOADING,
+  SET_CORRECT_COUNT,
   GET_QUESTIONS
 } from "./ActionTypes";
 
@@ -20,7 +21,8 @@ const initState = {
   menuAvailable: false,
   showMenu: false,
   submitting: false,
-  submitted: false
+  submitted: false,
+  correctCount: 0
 };
 
 export default function(state = initState, action) {
@@ -79,6 +81,13 @@ export default function(state = initState, action) {
         ...state,
         submitted: !state.submitted
       };
+
+    case SET_CORRECT_COUNT:
+      return {
+        ...state,
+        correctCount: action.payload.count
+      };
+
     default:
       return state;
   }

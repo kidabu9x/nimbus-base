@@ -26,13 +26,15 @@ const mapStateToProps = state => ({
   quizzesLoading: state.courseQuizzes.loading,
   questions: state.courseQuizTest.questions,
   questionsLoading: state.courseQuizTest.loading,
+  totalQuestions: state.courseQuizTest.count,
   step: state.courseQuizTest.step,
   questionIndex: state.courseQuizTest.index,
   menuAvailable: state.courseQuizTest.menuAvailable,
   showMenu: state.courseQuizTest.showMenu,
   bookmarks: state.courseQuizTest.bookmarks,
   submitting: state.courseQuizTest.submitting,
-  submitted: state.courseQuizTest.submitted
+  submitted: state.courseQuizTest.submitted,
+  totalCorrectQuestions: state.courseQuizTest.correctCount
 });
 
 const mapDispatchToProps = {

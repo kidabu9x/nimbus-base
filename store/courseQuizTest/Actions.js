@@ -8,6 +8,7 @@ import {
   SET_STEP,
   TOGGLE_SUBMITTING,
   TOGGLE_SUBMITTED,
+  SET_CORRECT_COUNT,
   GET_QUESTIONS,
   QUESTIONS_LOADING
 } from "./ActionTypes";
@@ -144,7 +145,7 @@ export const submit = () => async (dispatch, getState) => {
       })
         .then(result => {
           if (result.status == 200) {
-            resolve(result.data);
+            resolve(result.data.question);
           } else {
             result(question);
           }
@@ -155,7 +156,23 @@ export const submit = () => async (dispatch, getState) => {
     });
   });
   const answeredQuestions = await Promise.all(promiseQuestions);
-  console.log(answeredQuestions);
+  let correctCount = 0;
+  answeredQuestions.forEach(q => (q.is_match ? (correctCount += 1) : null));
+
+  dispatch({
+    type: GET_QUESTIONS,
+    payload: {
+      questions: [...answeredQuestions],
+      count: answeredQuestions.length
+    }
+  });
+
+  dispatch({
+    type: SET_CORRECT_COUNT,
+    payload: {
+      count: correctCount
+    }
+  });
 
   dispatch({
     type: TOGGLE_SUBMITTING
