@@ -6,13 +6,14 @@ import Body from "./Body";
 
 import { getCode } from "../../store/courseCode/Actions";
 import { getQuizzes, setQuiz } from "../../store/courseQuizzes/Actions";
-import { getQuestions } from "../../store/courseQuizQuestions/Actions";
 import {
   setStep,
   setQuestionIndex,
   toggleMenuAvailable,
   toggleShowMenu,
-  bookmark
+  bookmark,
+  getQuestions,
+  submit
 } from "../../store/courseQuizTest/Actions";
 import { logout } from "../../store/auth/Actions";
 
@@ -23,13 +24,15 @@ const mapStateToProps = state => ({
   quiz: state.courseQuizzes.quiz,
   quizzes: state.courseQuizzes.quizzes,
   quizzesLoading: state.courseQuizzes.loading,
-  questions: state.courseQuizQuestions.questions,
-  questionsLoading: state.courseQuizQuestions.loading,
+  questions: state.courseQuizTest.questions,
+  questionsLoading: state.courseQuizTest.loading,
   step: state.courseQuizTest.step,
   questionIndex: state.courseQuizTest.index,
   menuAvailable: state.courseQuizTest.menuAvailable,
   showMenu: state.courseQuizTest.showMenu,
-  bookmarks: state.courseQuizTest.bookmarks
+  bookmarks: state.courseQuizTest.bookmarks,
+  submitting: state.courseQuizTest.submitting,
+  submitted: state.courseQuizTest.submitted
 });
 
 const mapDispatchToProps = {
@@ -42,7 +45,8 @@ const mapDispatchToProps = {
   setQuestionIndex,
   toggleMenuAvailable,
   toggleShowMenu,
-  bookmark
+  bookmark,
+  submit
 };
 
 class Quiz extends Component {
@@ -94,18 +98,22 @@ class Quiz extends Component {
   };
 
   onSetQuestionIndex = index => {
-    const { setQuestionIndex } = this.props;
+    const { setQuestionIndex, showMenu, toggleShowMenu, setStep } = this.props;
     setQuestionIndex(index);
-  };
-
-  onToggleMenuAvailable = () => {
-    const { toggleMenuAvailable } = this.props;
-    toggleMenuAvailable();
+    if (showMenu) {
+      toggleShowMenu();
+      setStep(3);
+    }
   };
 
   onToggleShowMenu = () => {
-    const { menuAvailable, toggleShowMenu, setStep } = this.props;
-    if (!menuAvailable) this.onToggleMenuAvailable();
+    const {
+      menuAvailable,
+      toggleShowMenu,
+      toggleMenuAvailable,
+      setStep
+    } = this.props;
+    if (!menuAvailable) toggleMenuAvailable();
     toggleShowMenu();
     setStep(4);
   };
@@ -118,6 +126,11 @@ class Quiz extends Component {
   onBookmark = () => {
     const { bookmark } = this.props;
     bookmark();
+  };
+
+  onSubmit = () => {
+    const { submit } = this.props;
+    submit();
   };
 
   render() {
@@ -133,6 +146,7 @@ class Quiz extends Component {
           onSetQuestionIndex={this.onSetQuestionIndex}
           onToggleShowMenu={this.onToggleShowMenu}
           onBookmark={this.onBookmark}
+          onSubmit={this.onSubmit}
         ></Body>
       </Layout>
     );

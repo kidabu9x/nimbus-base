@@ -1,15 +1,84 @@
+import Api from "../../api";
+
 import {
   SET_QUESTION_INDEX,
   TOGGLE_SHOW_MENU,
   TOGGLE_MENU_AVAILABLE,
   SET_BOOKMARKS,
-  SET_STEP
+  SET_STEP,
+  TOGGLE_SUBMITTING,
+  TOGGLE_SUBMITTED,
+  GET_QUESTIONS,
+  QUESTIONS_LOADING
 } from "./ActionTypes";
-// import Api from "../../api";
-// const getEndPoint = (courseId, quizId) => {
-//   let endPoint = `/courses/${courseId}/quizzes/${quizId}/questions`;
-//   return endPoint;
-// };
+
+const getEndPoint = (courseId, quizId) => {
+  let endPoint = `/courses/${courseId}/quizzes/${quizId}/questions`;
+  return endPoint;
+};
+
+export const getQuestions = () => async (dispatch, getState) => {
+  dispatch({
+    type: QUESTIONS_LOADING
+  });
+  const rootState = getState();
+  const { course } = rootState.courses;
+  const { quiz } = rootState.courseQuizzes;
+  let { questions, count } = rootState.courseQuizTest;
+  const endPoint = getEndPoint(course._id, quiz._id);
+  try {
+    const result = await Api.get(`${endPoint}/generate`);
+    if (result.status === 200) {
+      questions = result.data.questions;
+      count = result.data.count;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  dispatch({
+    type: GET_QUESTIONS,
+    payload: {
+      questions,
+      count
+    }
+  });
+};
+
+export const resetQuestion = () => async (dispatch, getState) => {
+  const rootState = getState();
+  const { quiz } = rootState.courseQuizzes;
+  const { index } = rootState.courseQuizTest;
+  const { questions, menuAvailable } = rootState.courseQuizTest;
+  if (!menuAvailable && !!quiz.ask_questions_again_when_returning) {
+    let question = questions[index];
+    if (question) {
+      if (["multiple_choices", "single_choice"].indexOf(question.type) === 1) {
+        question.answers = question.answers.map(answer => {
+          answer.user_choice = false;
+          return answer;
+        });
+      } else if (
+        ["pairing"].indexOf(question.type) === 1 &&
+        question.temporary_pairing_answers
+      ) {
+        question.temporary_pairing_answers.map(answer => {
+          answer.id = null;
+          answer.title = "";
+          answer.is_match_with = null;
+          return answer;
+        });
+      }
+    }
+
+    dispatch({
+      type: GET_QUESTIONS,
+      payload: {
+        questions: [...questions]
+      }
+    });
+  }
+};
 
 export const setStep = step => async dispatch => {
   dispatch({
@@ -55,5 +124,43 @@ export const bookmark = () => async (dispatch, getState) => {
     payload: {
       bookmarks: [...bookmarks]
     }
+  });
+};
+
+export const submit = () => async (dispatch, getState) => {
+  dispatch({
+    type: TOGGLE_SUBMITTING
+  });
+  const rootState = getState();
+  const { course } = rootState.courses;
+  const { quiz } = rootState.courseQuizzes;
+  let { questions } = rootState.courseQuizTest;
+
+  const endPoint = getEndPoint(course._id, quiz._id);
+  const promiseQuestions = questions.map(question => {
+    return new Promise((resolve, reject) => {
+      Api.post(`${endPoint}/${question._id}/mark`, {
+        ...question
+      })
+        .then(result => {
+          if (result.status == 200) {
+            resolve(result.data);
+          } else {
+            result(question);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+  const answeredQuestions = await Promise.all(promiseQuestions);
+  console.log(answeredQuestions);
+
+  dispatch({
+    type: TOGGLE_SUBMITTING
+  });
+  dispatch({
+    type: TOGGLE_SUBMITTED
   });
 };

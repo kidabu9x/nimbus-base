@@ -8,8 +8,11 @@ import Actions from "./Question/Actions";
 
 const styles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(2),
-    textAlign: "left"
+    padding: theme.spacing(3),
+    textAlign: "left",
+    backgroundColor: "#fff",
+    height: "100vh",
+    boxSizing: "border-box"
   }
 }));
 

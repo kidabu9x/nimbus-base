@@ -3,19 +3,41 @@ import {
   SET_QUESTION_INDEX,
   SET_STEP,
   TOGGLE_MENU_AVAILABLE,
-  TOGGLE_SHOW_MENU
+  TOGGLE_SHOW_MENU,
+  TOGGLE_SUBMITTING,
+  TOGGLE_SUBMITTED,
+  QUESTIONS_LOADING,
+  GET_QUESTIONS
 } from "./ActionTypes";
 
 const initState = {
+  questions: [],
+  count: 0,
+  loading: false,
   step: 1,
   bookmarks: [],
   index: -1,
   menuAvailable: false,
-  showMenu: false
+  showMenu: false,
+  submitting: false,
+  submitted: false
 };
 
 export default function(state = initState, action) {
   switch (action.type) {
+    case GET_QUESTIONS:
+      return {
+        ...state,
+        ...action.payload,
+        loading: false
+      };
+
+    case QUESTIONS_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+
     case SET_STEP:
       return {
         ...state,
@@ -44,6 +66,18 @@ export default function(state = initState, action) {
       return {
         ...state,
         showMenu: !state.showMenu
+      };
+
+    case TOGGLE_SUBMITTING:
+      return {
+        ...state,
+        submitting: !state.submitting
+      };
+
+    case TOGGLE_SUBMITTED:
+      return {
+        ...state,
+        submitted: !state.submitted
       };
     default:
       return state;

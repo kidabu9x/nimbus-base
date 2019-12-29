@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import grey from "@material-ui/core/colors/grey";
 
 import ValidateCode from "./components/ValidateCode";
 import SelectQuiz from "./components/SelectQuiz";
@@ -13,7 +14,8 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh",
-    position: "relative"
+    position: "relative",
+    backgroundColor: grey[100]
   },
   loadingBar: {
     position: "fixed",
@@ -23,7 +25,6 @@ const styles = theme => ({
   },
   container: {
     maxWidth: 450,
-    padding: theme.spacing(2),
     textAlign: "center",
     [theme.breakpoints.up("sm")]: {
       width: "100%",
@@ -67,7 +68,10 @@ class Body extends Component {
       showMenu,
       onSetQuestionIndex,
       onToggleShowMenu,
-      onBookmark
+      onBookmark,
+      submitting,
+      submitted,
+      onSubmit
     } = this.props;
     const Step = () => {
       switch (step) {
@@ -104,7 +108,16 @@ class Body extends Component {
             />
           );
         case 4:
-          return <Summary questions={questions} bookmarks={bookmarks} />;
+          return (
+            <Summary
+              questions={questions}
+              bookmarks={bookmarks}
+              submitting={submitting}
+              submitted={submitted}
+              onSetQuestionIndex={onSetQuestionIndex}
+              onSubmit={onSubmit}
+            />
+          );
         default:
           break;
       }
