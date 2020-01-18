@@ -13,6 +13,14 @@ const useStyles = makeStyles(theme => ({
       theme.palette.type === "dark"
         ? theme.palette.grey[800]
         : theme.palette.grey[200]
+  },
+  wrapper: {
+    display: "flex"
+  },
+  gmap: {
+    marginLeft: theme.spacing(4),
+    flex: 1,
+    textAlign: "right"
   }
 }));
 
@@ -33,9 +41,35 @@ const Footer = () => {
   const classes = useStyles();
   return (
     <footer className={classes.root}>
-      <Container maxWidth="lg">
-        <Typography variant="body1">Nimbus Hub</Typography>
-        <Copyright />
+      <Container className={classes.wrapper} maxWidth="lg">
+        <div>
+          <Typography variant="h6" gutterBottom>
+            Nimbus Hub
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Địa chỉ: Tầng 2, Số 5, Ngõ 128, Phố Vọng, Hà Nội
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Hotline: 0972 220 777
+          </Typography>
+          <Typography variant="body2" gutterBottom>
+            Email: hotro@ladipage.vn
+          </Typography>
+          <Copyright />
+        </div>
+
+        <div className={classes.gmap}>
+          <iframe
+            width="500"
+            height="150"
+            id="gmap_canvas"
+            src="https://maps.google.com/maps?q=128%2C%20Ph%E1%BB%91%20V%E1%BB%8Dng%2C%20H%C3%A0%20N%E1%BB%99i%2C%20Vi%E1%BB%87t%20Nam&t=&z=17&ie=UTF8&iwloc=&output=embed"
+            frameBorder="0"
+            scrolling="no"
+            marginHeight="0"
+            marginWidth="0"
+          ></iframe>
+        </div>
       </Container>
     </footer>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Container from "@material-ui/core/Container";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Base from "../_base";
@@ -14,10 +13,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: "column",
     minHeight: "100vh"
   },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2)
-  },
+  main: {},
   footer: {
     padding: theme.spacing(3, 2),
     marginTop: "auto",
@@ -34,9 +30,7 @@ const Layout = props => {
     <Base>
       <div className={classes.root}>
         <NavBar />
-        <Container component="main" className={classes.main} maxWidth="lg">
-          {props.children}
-        </Container>
+        <div className={classes.main}>{props.children}</div>
         <Footer className={classes.footer} />
       </div>
     </Base>

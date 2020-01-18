@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Layout from "../layouts/default";
 
+import Homepage from "../components/homepage";
+
 class Home extends Component {
   static async getInitialProps() {
     return {};
@@ -8,7 +10,7 @@ class Home extends Component {
   render() {
     return (
       <Layout>
-        <h3>We are under construction</h3>
+        <Homepage />
       </Layout>
     );
   }
