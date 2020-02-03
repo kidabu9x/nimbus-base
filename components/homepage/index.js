@@ -2,7 +2,12 @@
 import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import MailIcon from "@material-ui/icons/Mail";
+import PhoneIcon from "@material-ui/icons/Phone";
 
+import Logo from "../../assets/images/logo-white.svg";
 import Banner4 from "../../assets/images/banner-4.jpg";
 import Banner5 from "../../assets/images/banner-5.jpg";
 
@@ -13,43 +18,101 @@ const styles = makeStyles(theme => ({
     backgroundPosition: "center",
     display: "flex",
     flexWrap: "wrap",
-    height: "100vh"
+    height: "100vh",
+    [theme.breakpoints.down("sm")]: {
+      display: "block",
+      position: "relative"
+    }
   },
   pannelLeft: {
     flex: "0 0 60%"
   },
   pannelRight: {
     flex: "0 0 40%",
-    backgroundImage: "url(" + Banner5 + ")",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    background: "url(" + Banner5 + ") no-repeat center center",
     color: "#ffffff",
-    padding: theme.spacing(8, 4),
-    boxSizing: "border-box"
+    padding: theme.spacing(8),
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.down("sm")]: {
+      background: "rgba(32, 115, 71, .8)",
+      textAlign: "center",
+      height: "100vh"
+    }
+  },
+  btnContainer: {
+    flex: 1
   },
   btnLink: {
+    display: "block",
     fontSize: "2.4rem",
     color: "#fff",
     textTransform: "unset",
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.5rem"
+    }
+  },
+  logoContainer: {
+    textAlign: "right",
+    height: "60px",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+      marginBottom: theme.spacing(2)
+    }
+  },
+  logo: {
+    fill: "white"
+  },
+  footer: {
+    height: "60px"
+  },
+  iconButton: {
+    color: "white"
   }
 }));
 
 const BtnLink = props => {
   const { text, link, classes } = props;
   return (
-    <div>
-      <Button
-        className={classes.btnLink}
-        variant="link"
-        color="primary"
-        href={link}
-      >
-        {text}
-      </Button>
-    </div>
+    <Button
+      className={classes.btnLink}
+      variant="text"
+      color="primary"
+      href={link}
+    >
+      {text}
+    </Button>
   );
 };
+
+const buttons = [
+  {
+    link: "http://study-hub.nimbus.edu.vn/",
+    text: "Không gian học tập"
+  },
+  {
+    link: "#",
+    text: "IC3 - ICDL - MOS"
+  },
+  {
+    link: "#1",
+    text: "Sự kiện"
+  },
+  {
+    link: "https://khoahoc.nimbus.edu.vn",
+    text: "Học online"
+  },
+  {
+    link: "https://blog.nimbus.edu.vn",
+    text: "Blog"
+  },
+  {
+    link: "http://study-hub.nimbus.edu.vn/gioi-thieu",
+    text: "Giới thiệu"
+  }
+];
 
 const Home = () => {
   const classes = styles();
@@ -58,27 +121,32 @@ const Home = () => {
       <div className={classes.root}>
         <div className={classes.pannelLeft}></div>
         <div className={classes.pannelRight}>
-          <BtnLink
-            classes={classes}
-            link="http://study-hub.nimbus.edu.vn/"
-            text="Không gian học tập"
-          />
-          <BtnLink
-            classes={classes}
-            link="http://study-hub.nimbus.edu.vn/gioi-thieu"
-            text="Giới thiệu"
-          />
-          <BtnLink
-            classes={classes}
-            link="http://study-hub.nimbus.edu.vn/gioi-thieu"
-            text="IC3 - ICDL - MOS"
-          />
-          <BtnLink classes={classes} link="#" text="Sự kiện" />
-          <BtnLink
-            classes={classes}
-            link="https://blog.nimbus.edu.vn"
-            text="Blog"
-          />
+          <div className={classes.logoContainer}>
+            <img classes={classes.logo} src={Logo} alt="logo" width={80} />
+          </div>
+
+          <div className={classes.btnContainer}>
+            {buttons.map(btn => (
+              <BtnLink
+                classes={classes}
+                key={btn.link}
+                link={btn.link}
+                text={btn.text}
+              />
+            ))}
+          </div>
+
+          <div className={classes.footer}>
+            <IconButton className={classes.iconButton}>
+              <FacebookIcon color="inherit" />
+            </IconButton>
+            <IconButton className={classes.iconButton}>
+              <MailIcon color="inherit" />
+            </IconButton>
+            <IconButton className={classes.iconButton}>
+              <PhoneIcon color="inherit" />
+            </IconButton>
+          </div>
         </div>
       </div>
     </Fragment>
