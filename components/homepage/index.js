@@ -92,11 +92,11 @@ const BtnLink = props => {
 
 const buttons = [
   {
-    link: "http://study-hub.nimbus.edu.vn/",
+    link: "http://hub.nimbus.com.vn/",
     text: "Không gian học tập"
   },
   {
-    link: "http://ic3.nimbus.edu.vn",
+    link: "http://ic3.nimbus.com.vn",
     text: "IC3 - ",
     inline: true
   },
@@ -106,7 +106,7 @@ const buttons = [
     inline: true
   },
   {
-    link: "http://mos.nimbus.edu.vn/",
+    link: "http://mos.nimbus.com.vn/",
     text: "MOS",
     inline: true
   },
@@ -115,15 +115,15 @@ const buttons = [
     text: "Sự kiện"
   },
   {
-    link: "https://khoahoc.nimbus.edu.vn",
+    link: "https://khoahoc.nimbus.com.vn",
     text: "Học online"
   },
   {
-    link: "https://blog.nimbus.edu.vn",
+    link: "https://blog.nimbus.com.vn",
     text: "Blog"
   },
   {
-    link: "http://study-hub.nimbus.edu.vn/gioi-thieu",
+    link: "http://hub.nimbus.com.vn/gioi-thieu",
     text: "Giới thiệu"
   }
 ];
