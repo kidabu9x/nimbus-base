@@ -54,6 +54,9 @@ const styles = makeStyles(theme => ({
       fontSize: "1.5rem"
     }
   },
+  btnLinkInline: {
+    display: "inline-block"
+  },
   logoContainer: {
     textAlign: "right",
     height: "60px",
@@ -74,10 +77,10 @@ const styles = makeStyles(theme => ({
 }));
 
 const BtnLink = props => {
-  const { text, link, classes } = props;
+  const { text, link, inline, classes } = props;
   return (
     <Button
-      className={classes.btnLink}
+      className={`${classes.btnLink} ${inline ? classes.btnLinkInline : null}`}
       variant="text"
       color="primary"
       href={link}
@@ -93,11 +96,22 @@ const buttons = [
     text: "Không gian học tập"
   },
   {
-    link: "#",
-    text: "IC3 - ICDL - MOS"
+    link: "http://ic3.nimbus.edu.vn",
+    text: "IC3 - ",
+    inline: true
   },
   {
-    link: "#1",
+    link: "http://www.icdl.edu.vn",
+    text: "ICDL - ",
+    inline: true
+  },
+  {
+    link: "http://mos.nimbus.edu.vn/",
+    text: "MOS",
+    inline: true
+  },
+  {
+    link: "#",
     text: "Sự kiện"
   },
   {
@@ -132,6 +146,7 @@ const Home = () => {
                 key={btn.link}
                 link={btn.link}
                 text={btn.text}
+                inline={btn.inline}
               />
             ))}
           </div>
