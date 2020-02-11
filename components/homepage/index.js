@@ -111,6 +111,10 @@ const buttons = [
     inline: true
   },
   {
+    link: "http://sach.nimbus.com.vn",
+    text: "Thư viện sách"
+  },
+  {
     link: "#",
     text: "Sự kiện"
   },
