@@ -42,7 +42,7 @@ const styles = makeStyles(theme => ({
 
 const ValidateCode = props => {
   const [quizId, setQuizId] = useState("");
-  const { quizzes, quiz, onSetQuiz, onSetStep } = props;
+  const { quizzes, quiz, onSetQuiz, onSelectCode } = props;
 
   const classes = styles();
 
@@ -56,10 +56,6 @@ const ValidateCode = props => {
 
   const onSubmit = () => {
     onSetQuiz(quizId);
-  };
-
-  const onBack = () => {
-    onSetStep(1);
   };
 
   return (
@@ -98,7 +94,11 @@ const ValidateCode = props => {
       </div>
       <div className={classes.actions}>
         <div className={classes.actionWrapper}>
-          <Button color="primary" className={classes.action} onClick={onBack}>
+          <Button
+            color="primary"
+            className={classes.action}
+            onClick={onSelectCode}
+          >
             Nhập mã khác
           </Button>
         </div>

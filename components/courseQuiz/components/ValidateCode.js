@@ -72,12 +72,13 @@ const styles = makeStyles(theme => ({
 }));
 
 const ValidateCode = props => {
-  const [code, setCode] = useState("k2d2cws3");
-  const { user, codeLoading, codeInvalid, onGetCode, onSwitchAccount } = props;
+  const [code, setCode] = useState("k2d2cws3e");
+  const { user, loading, codeInvalid, onGetCode, onSwitchAccount } = props;
   const classes = styles();
 
   const onSubmit = e => {
     e.preventDefault();
+
     onGetCode(code);
   };
 
@@ -123,7 +124,7 @@ const ValidateCode = props => {
             variant="outlined"
             helperText={codeInvalid ? "Mã không hợp lệ" : null}
             error={codeInvalid}
-            disabled={codeLoading}
+            disabled={loading}
             value={code}
             onChange={e => setCode(e.target.value)}
           />
@@ -134,7 +135,7 @@ const ValidateCode = props => {
               clientId="618592701479-s18h0uo27etuful029664069uubo4ho1.apps.googleusercontent.com"
               onLogoutSuccess={onLogoutSuccess}
               onFailure={() => {}}
-              disabled={codeLoading}
+              disabled={loading}
               render={renderProps => (
                 <Button
                   color="primary"
@@ -156,7 +157,8 @@ const ValidateCode = props => {
               color="primary"
               className={classes.action}
               type="submit"
-              disabled={codeLoading}
+              disableElevation
+              disabled={loading}
             >
               Tiếp theo
             </Button>

@@ -2,8 +2,7 @@ import { GET_CODE, CODE_LOADING } from "./ActionTypes";
 
 const initState = {
   code: null,
-  loading: false,
-  isInvalid: false
+  loading: false
 };
 
 export default function(state = initState, action) {
@@ -12,7 +11,6 @@ export default function(state = initState, action) {
       return {
         ...state,
         code: action.payload.code,
-        isInvalid: action.payload.code === null,
         loading: false
       };
 

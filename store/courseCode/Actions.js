@@ -19,10 +19,10 @@ export const getCode = param => async (dispatch, getState) => {
     if (result.status === 200) {
       code = result.data.code;
     } else {
-      code = null;
+      throw new Error("code is null");
     }
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 
   dispatch({

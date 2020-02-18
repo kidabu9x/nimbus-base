@@ -144,7 +144,9 @@ const Actions = ({ classes, submitting, onSubmitClick }) => {
 const Result = ({ classes, totalQuestions, totalCorrectQuestions }) => {
   return (
     <div className={classes.actionsContainer}>
-      Bạn đã làm đúng: {totalCorrectQuestions} / {totalQuestions} câu
+      <Typography variant="body2">
+        Bạn đã làm đúng: {totalCorrectQuestions} / {totalQuestions} câu
+      </Typography>
     </div>
   );
 };
