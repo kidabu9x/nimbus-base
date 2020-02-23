@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import { GoogleLogout } from "react-google-login";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Logo from "../../../logo.svg";
@@ -73,7 +72,7 @@ const styles = makeStyles(theme => ({
 
 const ValidateCode = props => {
   const [code, setCode] = useState("k2d2cws3e");
-  const { user, loading, codeInvalid, onGetCode, onSwitchAccount } = props;
+  const { user, loading, codeInvalid, onGetCode } = props;
   const classes = styles();
 
   const onSubmit = e => {
@@ -82,8 +81,8 @@ const ValidateCode = props => {
     onGetCode(code);
   };
 
-  const onLogoutSuccess = () => {
-    onSwitchAccount();
+  const onLogout = () => {
+    window.location.href = "/dang-xuat?redirect=" + window.location.href;
   };
 
   return (
@@ -131,23 +130,14 @@ const ValidateCode = props => {
         </div>
         <div className={classes.actions}>
           <div className={classes.actionWrapper}>
-            <GoogleLogout
-              clientId="618592701479-s18h0uo27etuful029664069uubo4ho1.apps.googleusercontent.com"
-              onLogoutSuccess={onLogoutSuccess}
-              onFailure={() => {}}
+            <Button
+              color="primary"
+              className={classes.action}
               disabled={loading}
-              render={renderProps => (
-                <Button
-                  color="primary"
-                  className={classes.action}
-                  disabled={renderProps.disabled}
-                  onClick={renderProps.onClick}
-                >
-                  Dùng tài khoản khác
-                </Button>
-              )}
-              cookiePolicy={"single_host_origin"}
-            ></GoogleLogout>
+              onClick={onLogout}
+            >
+              Dùng tài khoản khác
+            </Button>
           </div>
           <div
             className={`${classes.actionWrapper} ${classes.actionWrapperRight}`}

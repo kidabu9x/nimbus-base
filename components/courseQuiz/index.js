@@ -24,7 +24,6 @@ import {
   getQuestions,
   submit
 } from "../../store/courseQuizTest/Actions";
-import { logout } from "../../store/auth/Actions";
 
 const mapStateToProps = state => ({
   code: state.courseCode.code,
@@ -43,7 +42,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getCode,
-  logout,
   getQuizzes,
   setQuiz,
   getQuestions,
@@ -153,11 +151,6 @@ class Quiz extends Component {
     setStep(4);
   };
 
-  onLogout = () => {
-    const { logout } = this.props;
-    logout();
-  };
-
   onBookmark = () => {
     const { bookmark } = this.props;
     bookmark();
@@ -200,7 +193,6 @@ class Quiz extends Component {
               loading={loading}
               codeInvalid={codeInvalid}
               onGetCode={this.onGetCode}
-              onLogout={this.onLogout}
             />
           );
         case 2:

@@ -28,7 +28,4 @@ class Render extends Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  {}
-)(RequireAuth(Render));
+export default connect(mapStateToProps, {})(RequireAuth(Render));

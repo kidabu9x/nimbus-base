@@ -4,6 +4,8 @@ import { parseCookies } from "nookies";
 import withReduxStore from "../libs/WithReduxStore";
 import { Provider } from "react-redux";
 
+import "../common/styles/app.scss";
+
 import Api from "../api";
 
 const setApiAuthentication = ({ token }) => {

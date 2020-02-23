@@ -1,7 +1,10 @@
 const withImages = require("next-images");
-module.exports = withImages({
-  ignoreTypes: ["svg"],
-  webpack(config) {
-    return config;
-  }
-});
+const withSass = require("@zeit/next-sass");
+module.exports = withSass(
+  withImages({
+    ignoreTypes: ["svg"],
+    webpack(config) {
+      return config;
+    }
+  })
+);

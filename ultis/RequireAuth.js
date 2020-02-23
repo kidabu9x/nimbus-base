@@ -45,10 +45,7 @@ const RequireAuth = Children => {
     }
   }
 
-  return connect(
-    mapStateToProps,
-    {}
-  )(Higher);
+  return connect(mapStateToProps, {})(Higher);
 };
 
 export default RequireAuth;
