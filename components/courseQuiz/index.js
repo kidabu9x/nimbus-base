@@ -27,16 +27,15 @@ import {
 
 const mapStateToProps = state => ({
   code: state.courseCode.code,
+
   quiz: state.courseQuizzes.quiz,
   quizzes: state.courseQuizzes.quizzes,
+
   questions: state.courseQuizTest.questions,
-  totalQuestions: state.courseQuizTest.count,
   step: state.courseQuizTest.step,
   questionIndex: state.courseQuizTest.index,
   bookmarks: state.courseQuizTest.bookmarks,
-  submitting: state.courseQuizTest.submitting,
   submitted: state.courseQuizTest.submitted,
-  totalCorrectQuestions: state.courseQuizTest.correctCount,
   openScoreNotification: state.courseQuizTest.openScoreNotification
 });
 
@@ -83,10 +82,13 @@ class Quiz extends Component {
 
   onGetCode = async code => {
     try {
+      this.setCodeInvalid(false);
+
       this.toggleLoading();
+
       const { getCode } = this.props;
       await getCode(code);
-      this.setCodeInvalid(false);
+
       await this.onGetQuizzes();
     } catch (error) {
       this.setCodeInvalid(true);
@@ -100,21 +102,25 @@ class Quiz extends Component {
    */
   onGetQuizzes = async () => {
     try {
-      this.toggleLoading();
       const { setStep, getQuizzes } = this.props;
       await getQuizzes();
       setStep(2);
     } catch (error) {
       this.toggleError();
-    } finally {
-      this.toggleLoading();
     }
   };
 
   onSetQuiz = async quizId => {
-    const { setQuiz } = this.props;
-    setQuiz(quizId);
-    this.onGetQuestion();
+    try {
+      this.toggleLoading();
+      const { setQuiz } = this.props;
+      setQuiz(quizId);
+      await this.onGetQuestion();
+    } catch (error) {
+      this.toggleError();
+    } finally {
+      this.toggleLoading();
+    }
   };
 
   /**
@@ -133,6 +139,7 @@ class Quiz extends Component {
   onSetQuestionIndex = index => {
     const { setQuestionIndex, showMenu, toggleShowMenu, setStep } = this.props;
     setQuestionIndex(index);
+    console.log(showMenu);
     if (showMenu) {
       toggleShowMenu();
       setStep(3);
@@ -157,8 +164,15 @@ class Quiz extends Component {
   };
 
   onSubmit = () => {
-    const { submit } = this.props;
-    submit();
+    try {
+      this.toggleLoading();
+      const { submit } = this.props;
+      submit();
+    } catch (error) {
+      this.toggleError();
+    } finally {
+      this.toggleLoading();
+    }
   };
 
   onSetStep = step => {
@@ -177,9 +191,7 @@ class Quiz extends Component {
       questionIndex,
       bookmarks,
 
-      submitted,
-      totalQuestions,
-      totalCorrectQuestions
+      submitted
     } = this.props;
 
     const { showError, loading, showMenu, codeInvalid } = this.state;
@@ -200,6 +212,7 @@ class Quiz extends Component {
             <SelectQuiz
               quizzes={quizzes}
               quiz={quiz}
+              loading={loading}
               onSetQuiz={this.onSetQuiz}
               onSelectCode={() => this.onSetStep(1)}
             />
@@ -224,8 +237,6 @@ class Quiz extends Component {
               bookmarks={bookmarks}
               loading={loading}
               submitted={submitted}
-              totalQuestions={totalQuestions}
-              totalCorrectQuestions={totalCorrectQuestions}
               onSetQuestionIndex={this.onSetQuestionIndex}
               onSubmit={this.onSubmit}
             />

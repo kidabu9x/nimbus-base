@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from "react";
-import { Button, makeStyles } from "@material-ui/core";
+import React, { Component } from "react";
+import { Button, withStyles } from "@material-ui/core";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import BookmarkBorderIcon from "@material-ui/icons/BookmarkBorder";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 
-const styles = makeStyles(theme => ({
+const styles = theme => ({
   root: {
     display: "flex",
     marginTop: theme.spacing(4)
@@ -36,96 +36,99 @@ const styles = makeStyles(theme => ({
   iconRight: {
     marginLeft: theme.spacing(0.5)
   }
-}));
+});
 
-const Actions = props => {
-  const {
-    index,
-    total,
-    menuAvailable,
-    bookmarks,
-    onBookmark,
-    onShowMenu,
-    onSetIndex
-  } = props;
-  const [booked, setBooked] = useState(false);
-  const buttonSize = "medium";
-  const classes = styles();
+class Actions extends Component {
+  render() {
+    const {
+      classes,
+      loading,
+      index,
+      total,
+      menuAvailable,
+      bookmarks,
+      onBookmark,
+      onShowMenu,
+      onSetIndex
+    } = this.props;
 
-  useEffect(() => {
-    setBooked(bookmarks.indexOf(index) > -1);
-  }, [bookmarks, index, onBookmark]);
+    const buttonSize = "medium";
 
-  const nextQuest = () => {
-    onSetIndex(index + 1);
-  };
+    const nextQuest = () => {
+      onSetIndex(index + 1);
+    };
 
-  const backQuest = () => {
-    onSetIndex(index - 1);
-  };
+    const backQuest = () => {
+      onSetIndex(index - 1);
+    };
 
-  const onMenuClick = () => {
-    onShowMenu();
-  };
+    const onMenuClick = () => {
+      onShowMenu();
+    };
+    return (
+      <div className={classes.root}>
+        {index > 0 && !menuAvailable ? (
+          <div className={classes.actions}>
+            <Button
+              className={`${classes.button} ${classes.buttonNoPdLeft}`}
+              size={buttonSize}
+              disabled={loading}
+              onClick={backQuest}
+            >
+              <NavigateBeforeIcon />
+              Câu trước
+            </Button>
+          </div>
+        ) : null}
+        <div className={classes.actionsRight}>
+          {bookmarks.indexOf(index) > -1 ? (
+            <Button
+              className={`${classes.button} ${classes.bookmarkedButton}`}
+              size={buttonSize}
+              disabled={loading}
+              onClick={onBookmark}
+            >
+              Hủy
+              <BookmarkIcon />
+            </Button>
+          ) : (
+            <Button
+              className={`${classes.button}`}
+              size={buttonSize}
+              disabled={loading}
+              onClick={onBookmark}
+            >
+              Đánh dấu
+              <BookmarkBorderIcon />
+            </Button>
+          )}
 
-  return (
-    <div className={classes.root}>
-      {index > 0 && !menuAvailable ? (
-        <div className={classes.actions}>
-          <Button
-            className={`${classes.button} ${classes.buttonNoPdLeft}`}
-            size={buttonSize}
-            onClick={backQuest}
-          >
-            <NavigateBeforeIcon />
-            Câu trước
-          </Button>
+          {menuAvailable || index === total - 1 ? (
+            <Button
+              className={`${classes.button}`}
+              size={buttonSize}
+              variant="contained"
+              color="primary"
+              disabled={loading}
+              onClick={onMenuClick}
+            >
+              Trình đơn
+            </Button>
+          ) : (
+            <Button
+              className={`${classes.button}`}
+              size={buttonSize}
+              disabled={loading}
+              onClick={nextQuest}
+            >
+              Câu tiếp
+              <NavigateNextIcon />
+            </Button>
+          )}
         </div>
-      ) : null}
-      <div className={classes.actionsRight}>
-        {booked ? (
-          <Button
-            className={`${classes.button} ${classes.bookmarkedButton}`}
-            size={buttonSize}
-            onClick={onBookmark}
-          >
-            Hủy
-            <BookmarkIcon />
-          </Button>
-        ) : (
-          <Button
-            className={`${classes.button}`}
-            size={buttonSize}
-            onClick={onBookmark}
-          >
-            Đánh dấu
-            <BookmarkBorderIcon />
-          </Button>
-        )}
-
-        {menuAvailable || index === total - 1 ? (
-          <Button
-            className={`${classes.button}`}
-            size={buttonSize}
-            variant="contained"
-            color="primary"
-            onClick={onMenuClick}
-          >
-            Trình đơn
-          </Button>
-        ) : (
-          <Button
-            className={`${classes.button}`}
-            size={buttonSize}
-            onClick={nextQuest}
-          >
-            Câu tiếp
-            <NavigateNextIcon />
-          </Button>
-        )}
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default Actions;
+export default withStyles(styles)(Actions);

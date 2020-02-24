@@ -42,7 +42,7 @@ const styles = makeStyles(theme => ({
 
 const ValidateCode = props => {
   const [quizId, setQuizId] = useState("");
-  const { quizzes, quiz, onSetQuiz, onSelectCode } = props;
+  const { loading, quizzes, quiz, onSetQuiz, onSelectCode } = props;
 
   const classes = styles();
 
@@ -97,6 +97,7 @@ const ValidateCode = props => {
           <Button
             color="primary"
             className={classes.action}
+            disabled={loading}
             onClick={onSelectCode}
           >
             Nhập mã khác
@@ -109,6 +110,7 @@ const ValidateCode = props => {
             variant="contained"
             color="primary"
             className={classes.action}
+            disabled={loading}
             onClick={onSubmit}
           >
             Làm bài

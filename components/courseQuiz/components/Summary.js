@@ -1,12 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import {
-  makeStyles,
-  Grid,
-  Typography,
-  Button,
-  CircularProgress
-} from "@material-ui/core";
+import { makeStyles, Grid, Typography, Button } from "@material-ui/core";
 import { grey, yellow, green, red } from "@material-ui/core/colors";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import DoneIcon from "@material-ui/icons/Done";
@@ -120,32 +114,29 @@ const Question = ({
   );
 };
 
-const Actions = ({ classes, submitting, onSubmitClick }) => {
+const Actions = ({ classes, loading, onSubmitClick }) => {
   return (
     <div className={`${classes.actionsContainer}`}>
-      {submitting ? (
-        <CircularProgress size="38px" />
-      ) : (
-        <Button
-          className={`${classes.actionPrimary}`}
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="large"
-          onClick={onSubmitClick}
-        >
-          Chấm điểm
-        </Button>
-      )}
+      <Button
+        className={`${classes.actionPrimary}`}
+        variant="contained"
+        color="primary"
+        fullWidth
+        size="large"
+        disabled={loading}
+        onClick={onSubmitClick}
+      >
+        Chấm điểm
+      </Button>
     </div>
   );
 };
 
-const Result = ({ classes, totalQuestions, totalCorrectQuestions }) => {
+const Result = ({ classes, total, correct }) => {
   return (
     <div className={classes.actionsContainer}>
       <Typography variant="body2">
-        Bạn đã làm đúng: {totalCorrectQuestions} / {totalQuestions} câu
+        Bạn đã làm đúng: {correct} / {total} câu
       </Typography>
     </div>
   );
@@ -155,23 +146,21 @@ const Summary = props => {
   const {
     questions,
     bookmarks,
-    submitting,
+    loading,
     submitted,
-    totalQuestions,
-    totalCorrectQuestions,
     onSetQuestionIndex,
     onSubmit
   } = props;
   const classes = styles();
 
   const onGoToQuestion = index => {
-    if (!submitting) {
+    if (!loading) {
       onSetQuestionIndex(index);
     }
   };
 
   const onSubmitClick = () => {
-    if (!submitted && !submitting) onSubmit();
+    if (!submitted && !loading) onSubmit();
   };
 
   return (
@@ -193,15 +182,15 @@ const Summary = props => {
       {!submitted ? (
         <Actions
           classes={classes}
-          submitting={submitting}
+          loading={loading}
           submitted={submitted}
           onSubmitClick={onSubmitClick}
         />
       ) : (
         <Result
           classes={classes}
-          totalQuestions={totalQuestions}
-          totalCorrectQuestions={totalCorrectQuestions}
+          total={questions.length}
+          correct={questions.filter(q => q.is_match).length}
         />
       )}
     </div>
