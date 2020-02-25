@@ -7,6 +7,7 @@ import Layout from "../../layouts/quiz";
 import styles from "./styles";
 
 import ErrorModal from "./components/ErrorModal";
+import ResultModal from "./components/ResultModal";
 import ValidateCode from "./components/ValidateCode";
 import SelectQuiz from "./components/SelectQuiz";
 import Question from "./components/Question";
@@ -19,10 +20,10 @@ import {
   setStep,
   setQuestionIndex,
   toggleMenuAvailable,
-  toggleShowMenu,
   bookmark,
   getQuestions,
-  submit
+  submit,
+  reset
 } from "../../store/courseQuizTest/Actions";
 
 const mapStateToProps = state => ({
@@ -36,6 +37,7 @@ const mapStateToProps = state => ({
   questionIndex: state.courseQuizTest.index,
   bookmarks: state.courseQuizTest.bookmarks,
   submitted: state.courseQuizTest.submitted,
+  menuAvailable: state.courseQuizTest.menuAvailable,
   openScoreNotification: state.courseQuizTest.openScoreNotification
 });
 
@@ -47,9 +49,9 @@ const mapDispatchToProps = {
   setStep,
   setQuestionIndex,
   toggleMenuAvailable,
-  toggleShowMenu,
   bookmark,
-  submit
+  submit,
+  reset
 };
 
 class Quiz extends Component {
@@ -59,12 +61,19 @@ class Quiz extends Component {
     codeInvalid: false,
     showMenu: false,
     showScoreNotification: false,
-    showGenericError: false
+    showGenericError: false,
+    showResultModal: false
   };
 
   toggleError = () => {
     this.setState({
       showError: !this.state.showError
+    });
+  };
+
+  toggleShowResultModal = () => {
+    this.setState({
+      showResultModal: !this.state.showResultModal
     });
   };
 
@@ -137,25 +146,13 @@ class Quiz extends Component {
   };
 
   onSetQuestionIndex = index => {
-    const { setQuestionIndex, showMenu, toggleShowMenu, setStep } = this.props;
+    const { setQuestionIndex } = this.props;
     setQuestionIndex(index);
-    console.log(showMenu);
-    if (showMenu) {
-      toggleShowMenu();
-      setStep(3);
-    }
   };
 
-  onToggleShowMenu = () => {
-    const {
-      menuAvailable,
-      toggleShowMenu,
-      toggleMenuAvailable,
-      setStep
-    } = this.props;
+  onToggleMenuAvailable = () => {
+    const { menuAvailable, toggleMenuAvailable } = this.props;
     if (!menuAvailable) toggleMenuAvailable();
-    toggleShowMenu();
-    setStep(4);
   };
 
   onBookmark = () => {
@@ -163,16 +160,24 @@ class Quiz extends Component {
     bookmark();
   };
 
-  onSubmit = () => {
+  onSubmit = async () => {
     try {
       this.toggleLoading();
       const { submit } = this.props;
-      submit();
+      await submit();
+
+      this.toggleShowResultModal();
     } catch (error) {
       this.toggleError();
     } finally {
       this.toggleLoading();
     }
+  };
+
+  onReSelectQuiz = async () => {
+    const { reset } = this.props;
+    reset();
+    this.onSetStep(2);
   };
 
   onSetStep = step => {
@@ -190,11 +195,12 @@ class Quiz extends Component {
       questions,
       questionIndex,
       bookmarks,
+      menuAvailable,
 
       submitted
     } = this.props;
 
-    const { showError, loading, showMenu, codeInvalid } = this.state;
+    const { showError, loading, codeInvalid, showResultModal } = this.state;
 
     const Step = () => {
       switch (step) {
@@ -223,10 +229,12 @@ class Quiz extends Component {
               questions={questions}
               bookmarks={bookmarks}
               questionIndex={questionIndex}
+              submitted={submitted}
               loading={loading}
-              showMenu={showMenu}
+              menuAvailable={menuAvailable}
               onSetQuestionIndex={this.onSetQuestionIndex}
-              onToggleShowMenu={this.onToggleShowMenu}
+              onToggleMenuAvailable={this.onToggleMenuAvailable}
+              onSetStep={this.onSetStep}
               onBookmark={this.onBookmark}
             />
           );
@@ -238,7 +246,9 @@ class Quiz extends Component {
               loading={loading}
               submitted={submitted}
               onSetQuestionIndex={this.onSetQuestionIndex}
+              onSetStep={this.onSetStep}
               onSubmit={this.onSubmit}
+              onReSelectQuiz={this.onReSelectQuiz}
             />
           );
         default:
@@ -257,6 +267,11 @@ class Quiz extends Component {
               ) : null}
               <Step />
 
+              <ResultModal
+                open={showResultModal}
+                questions={questions}
+                toggle={this.toggleShowResultModal}
+              />
               <ErrorModal open={showError} toggle={this.toggleError} />
             </div>
           </div>

@@ -41,8 +41,11 @@ class Question extends Component {
       questionIndex,
       menuAvailable,
       bookmarks,
+      submitted,
+
       onSetQuestionIndex,
-      onToggleShowMenu,
+      onToggleMenuAvailable,
+      onSetStep,
       onBookmark
     } = this.props;
 
@@ -57,7 +60,11 @@ class Question extends Component {
           index={questionIndex}
           total={questions.length}
         />
-        <Answers type={question.type} answers={question.answers} />
+        <Answers
+          submitted={submitted}
+          type={question.type}
+          answers={question.answers}
+        />
         <Actions
           loading={loading}
           index={questionIndex}
@@ -65,7 +72,8 @@ class Question extends Component {
           menuAvailable={menuAvailable}
           bookmarks={bookmarks}
           onSetIndex={onSetQuestionIndex}
-          onShowMenu={onToggleShowMenu}
+          onToggleMenuAvailable={onToggleMenuAvailable}
+          onSetStep={onSetStep}
           onBookmark={onBookmark}
         />
       </div>

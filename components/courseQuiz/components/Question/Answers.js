@@ -2,10 +2,10 @@
 import React from "react";
 import MultipleChoices from "./Answers/MultipleChoices";
 const Answers = props => {
-  const { answers, type } = props;
+  const { answers, type, submitted } = props;
   switch (type) {
     case "multiple_choices":
-      return <MultipleChoices answers={answers} />;
+      return <MultipleChoices submitted={submitted} answers={answers} />;
     default:
       return null;
   }

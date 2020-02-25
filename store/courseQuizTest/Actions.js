@@ -181,3 +181,28 @@ export const submit = () => async (dispatch, getState) => {
     type: TOGGLE_SUBMITTED
   });
 };
+
+export const reset = () => async dispatch => {
+  dispatch({
+    type: TOGGLE_SUBMITTED
+  });
+
+  dispatch({
+    type: TOGGLE_MENU_AVAILABLE
+  });
+
+  dispatch({
+    type: GET_QUESTIONS,
+    payload: {
+      questions: [],
+      count: 0
+    }
+  });
+
+  dispatch({
+    type: SET_BOOKMARKS,
+    payload: {
+      bookmarks: []
+    }
+  });
+};

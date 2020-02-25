@@ -48,7 +48,8 @@ class Actions extends Component {
       menuAvailable,
       bookmarks,
       onBookmark,
-      onShowMenu,
+      onToggleMenuAvailable,
+      onSetStep,
       onSetIndex
     } = this.props;
 
@@ -63,7 +64,8 @@ class Actions extends Component {
     };
 
     const onMenuClick = () => {
-      onShowMenu();
+      onToggleMenuAvailable();
+      onSetStep(4);
     };
     return (
       <div className={classes.root}>

@@ -33,18 +33,21 @@ const styles = makeStyles(theme => ({
 }));
 
 const Answer = props => {
-  const { answer, classes, toggleUserChoice } = props;
+  const { answer, classes, submitted, toggleUserChoice } = props;
   const [checked, setChecked] = useState(false);
   useEffect(() => {
     setChecked(answer.user_choice);
   }, [answer]);
   const toggleCheckbox = () => {
-    setChecked(!checked);
-    toggleUserChoice();
+    if (!submitted) {
+      setChecked(!checked);
+      toggleUserChoice();
+    }
   };
   return (
     <li className={classes.answer}>
       <Checkbox
+        disabled={submitted}
         className={`${classes.answerCheckbox} ${classes.answerCheckboxDefault}`}
         checked={checked}
         onChange={toggleCheckbox}
@@ -61,16 +64,19 @@ const Answer = props => {
 };
 
 const Answers = props => {
-  const { answers } = props;
+  const { answers, submitted } = props;
   const classes = styles();
   const toggleUserChoice = index => {
-    answers[index].user_choice = !answers[index].user_choice;
+    if (!submitted) {
+      answers[index].user_choice = !answers[index].user_choice;
+    }
   };
   return (
     <ul className={classes.answers}>
       {answers.map((answer, index) => (
         <Answer
           key={answer._id}
+          submitted={submitted}
           classes={classes}
           answer={answer}
           toggleUserChoice={() => toggleUserChoice(index)}

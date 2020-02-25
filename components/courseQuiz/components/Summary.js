@@ -5,6 +5,7 @@ import { grey, yellow, green, red } from "@material-ui/core/colors";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import DoneIcon from "@material-ui/icons/Done";
 import ErrorIcon from "@material-ui/icons/Error";
+import ReplayIcon from "@material-ui/icons/Replay";
 
 const styles = makeStyles(theme => ({
   root: {
@@ -49,7 +50,11 @@ const styles = makeStyles(theme => ({
     textAlign: "center",
     padding: theme.spacing(2, 2, 3, 2),
     boxSizing: "border-box",
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    display: "flex"
+  },
+  resultScore: {
+    flex: 1
   },
   actionPrimary: {
     fontSize: 15
@@ -132,12 +137,24 @@ const Actions = ({ classes, loading, onSubmitClick }) => {
   );
 };
 
-const Result = ({ classes, total, correct }) => {
+const Result = ({ classes, total, correct, onReSelectQuiz }) => {
   return (
     <div className={classes.actionsContainer}>
-      <Typography variant="body2">
-        Bạn đã làm đúng: {correct} / {total} câu
+      <Typography
+        className={classes.resultScore}
+        variant="h6"
+        color="textSecondary"
+      >
+        Kết quả: {correct} / {total}
       </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        disableElevation
+        onClick={onReSelectQuiz}
+      >
+        <ReplayIcon />
+      </Button>
     </div>
   );
 };
@@ -149,13 +166,16 @@ const Summary = props => {
     loading,
     submitted,
     onSetQuestionIndex,
-    onSubmit
+    onSetStep,
+    onSubmit,
+    onReSelectQuiz
   } = props;
   const classes = styles();
 
   const onGoToQuestion = index => {
     if (!loading) {
       onSetQuestionIndex(index);
+      onSetStep(3);
     }
   };
 
@@ -191,6 +211,7 @@ const Summary = props => {
           classes={classes}
           total={questions.length}
           correct={questions.filter(q => q.is_match).length}
+          onReSelectQuiz={onReSelectQuiz}
         />
       )}
     </div>
