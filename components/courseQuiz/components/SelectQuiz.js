@@ -9,6 +9,8 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 
+import BannerHeading from "../../common/BannerHeading";
+
 const styles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(3),
@@ -71,6 +73,8 @@ const ValidateCode = props => {
       >
         Chọn bài trắc nghiệm
       </Typography>
+
+      <BannerHeading />
 
       <div className={classes.inputWrapper}>
         <FormControl component="fieldset">
