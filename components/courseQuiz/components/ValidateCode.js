@@ -8,10 +8,7 @@ import Logo from "../../../logo.svg";
 
 const styles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3),
-    backgroundColor: "#fff",
-    height: "100vh",
-    boxSizing: "border-box"
+    textAlign: "center"
   },
   title: {
     fontSize: 24,

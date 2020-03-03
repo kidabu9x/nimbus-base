@@ -13,10 +13,7 @@ import BannerHeading from "../../common/BannerHeading";
 
 const styles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3),
-    backgroundColor: "#fff",
-    height: "100vh",
-    boxSizing: "border-box"
+    textAlign: "center"
   },
   title: {
     fontSize: 24,
@@ -74,7 +71,10 @@ const ValidateCode = props => {
         Chọn bài trắc nghiệm
       </Typography>
 
-      <BannerHeading />
+      <BannerHeading
+        type="warning"
+        description="Các câu hỏi ghép nối không khả dụng ở độ phân dải này"
+      />
 
       <div className={classes.inputWrapper}>
         <FormControl component="fieldset">

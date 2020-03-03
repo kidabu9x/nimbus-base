@@ -10,8 +10,7 @@ import ReplayIcon from "@material-ui/icons/Replay";
 const styles = makeStyles(theme => ({
   root: {
     display: "flex",
-    flexDirection: "column",
-    height: "100vh"
+    flexDirection: "column"
   },
   headerContainer: {
     borderBottom: "1px solid " + grey[200],

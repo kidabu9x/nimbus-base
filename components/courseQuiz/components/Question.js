@@ -6,14 +6,8 @@ import QuestionDetail from "./Question/Question";
 import Answers from "./Question/Answers";
 import Actions from "./Question/Actions";
 
-const styles = theme => ({
-  root: {
-    padding: theme.spacing(3),
-    textAlign: "left",
-    backgroundColor: "#fff",
-    height: "100vh",
-    boxSizing: "border-box"
-  }
+const styles = () => ({
+  root: {}
 });
 
 class Question extends Component {

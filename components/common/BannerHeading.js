@@ -5,6 +5,7 @@ import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
 import blueGrey from "@material-ui/core/colors/blueGrey";
+import orange from "@material-ui/core/colors/orange";
 
 import { withStyles, Typography } from "@material-ui/core";
 
@@ -20,6 +21,11 @@ const palettes = {
     primary: blueGrey[900],
     secondary: blueGrey[400],
     background: blueGrey[50]
+  },
+  warning: {
+    primary: orange[900],
+    secondary: orange[400],
+    background: orange[50]
   }
 };
 
@@ -27,18 +33,29 @@ const styles = theme => ({
   root: {
     display: "flex",
     border: "1px solid rgba(0, 0, 0, .05)",
-    borderRadius: "2px",
+    borderRadius: "4px",
     padding: theme.spacing(2),
     backgroundColor: palettes.info.background,
-    boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)"
+    boxShadow:
+      "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+    "&.warning": {
+      backgroundColor: palettes.warning.background
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "none"
+    }
   },
   iconWrapper: {
-    paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
+    paddingTop: theme.spacing(0.5)
   },
   icon: {
     position: "relative",
     display: "block",
-    fill: palettes.info.primary
+    fill: palettes.info.primary,
+    "&.warning": {
+      fill: palettes.warning.primary
+    }
   },
   iconInner: {
     position: "relative",
@@ -51,9 +68,7 @@ const styles = theme => ({
       bottom: -theme.spacing(0.25),
       left: -theme.spacing(0.25),
       right: -theme.spacing(0.25),
-      borderRadius: "50%",
-      backgroundColor: "#fff",
-      border: theme.spacing(0.5) + "px solid " + palettes.info.secondary
+      borderRadius: "50%"
     }
   },
   content: {
@@ -93,22 +108,24 @@ Icon.propTypes = {
 
 class BannerHeading extends Component {
   render() {
-    const { classes, type } = this.props;
+    const { classes, type, title, description } = this.props;
     return (
-      <div className={classes.root}>
+      <div className={`${classes.root} ${type}`}>
         <div className={classes.iconWrapper}>
-          <div>
-            <span className={classes.iconInner}>
-              <Icon overrideClass={classes.icon} type={type} />
-            </span>
-          </div>
+          <span className={`${classes.iconInner}`}>
+            <Icon overrideClass={`${classes.icon} ${type}`} type={type} />
+          </span>
         </div>
 
         <div className={classes.content}>
-          <Typography variant="subtitle2" className={classes.title}>
-            Hello world
-          </Typography>
-          <Typography variant="subtitle1">You are my world</Typography>
+          {title ? (
+            <Typography variant="subtitle2" className={classes.title}>
+              {title}
+            </Typography>
+          ) : null}
+          {description ? (
+            <Typography variant="body2">{description}</Typography>
+          ) : null}
         </div>
       </div>
     );

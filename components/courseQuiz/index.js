@@ -265,6 +265,7 @@ class Quiz extends Component {
               {loading ? (
                 <LinearProgress className={classes.loadingBar} />
               ) : null}
+
               <Step />
 
               <ResultModal
