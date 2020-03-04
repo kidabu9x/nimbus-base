@@ -3,12 +3,36 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
 import QuestionDetail from "./Question/Question";
-import Answers from "./Question/Answers";
+import MultipleChoices from "./Question/MultipleChoices";
+import Pairing from "./Question/Pairing";
 import Actions from "./Question/Actions";
 
 const styles = () => ({
   root: {}
 });
+
+const Answers = props => {
+  const { question, type, submitted } = props;
+  switch (type) {
+    case "multiple_choices":
+      return (
+        <MultipleChoices submitted={submitted} answers={question.answers} />
+      );
+
+    case "pairing":
+      return (
+        <Pairing
+          submitted={submitted}
+          answers={question.answers}
+          pairingAnswers={question.pairing_answers}
+          tempPairingAnswers={question.temporary_pairing_answers}
+        />
+      );
+
+    default:
+      return null;
+  }
+};
 
 class Question extends Component {
   state = {
@@ -21,6 +45,7 @@ class Question extends Component {
 
   componentDidMount() {
     const { questions, questionIndex } = this.props;
+    console.log(questions[questionIndex]);
     this.setState({
       question: questions[questionIndex] ? questions[questionIndex] : null
     });
@@ -57,7 +82,7 @@ class Question extends Component {
         <Answers
           submitted={submitted}
           type={question.type}
-          answers={question.answers}
+          question={question}
         />
         <Actions
           loading={loading}

@@ -77,7 +77,7 @@ const ValidateCode = props => {
       />
 
       <div className={classes.inputWrapper}>
-        <FormControl component="fieldset">
+        <FormControl component="fieldset" disabled={loading}>
           <RadioGroup
             aria-label="position"
             name="position"

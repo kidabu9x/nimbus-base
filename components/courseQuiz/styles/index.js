@@ -24,8 +24,6 @@ const styles = theme => ({
       top: "40%",
       left: "50%",
       transform: "translate(-50%, -50%)",
-      padding: theme.spacing(6, 5, 4),
-      borderRadius: theme.spacing(1),
       maxWidth: 650
     }
   },
@@ -34,7 +32,7 @@ const styles = theme => ({
     backgroundColor: "#fff",
     textAlign: "left",
     maxHeight: "100vh",
-    padding: theme.spacing(8, 5),
+    padding: theme.spacing(8, 5, 4),
     borderRadius: theme.spacing(1),
     [theme.breakpoints.down("sm")]: {
       height: "100vh",

@@ -40,7 +40,6 @@ const styles = theme => ({
 
 class Actions extends Component {
   shouldComponentUpdate(nextProps) {
-    console.log(123);
     if (nextProps.bookmarks === this.props.bookmarks) {
       return false;
     }

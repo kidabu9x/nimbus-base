@@ -261,7 +261,6 @@ class Quiz extends Component {
         <div className={classes.root}>
           <div className={classes.container}>
             <div className={classes.wrapper}>
-              {/* <LinearProgress className={classes.loadingBar} /> */}
               {loading ? (
                 <LinearProgress className={classes.loadingBar} />
               ) : null}
