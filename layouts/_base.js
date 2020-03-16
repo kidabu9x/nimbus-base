@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import Head from "next/head";
 
 const customTheme = createMuiTheme({
   palette: {
@@ -29,9 +28,6 @@ class Layout extends Component {
   render() {
     return (
       <ThemeProvider theme={customTheme}>
-        <Head>
-          <title>Nimbus Computer School</title>
-        </Head>
         <style jsx global>{`
           body {
             background: #fff;

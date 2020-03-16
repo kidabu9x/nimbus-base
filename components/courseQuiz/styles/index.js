@@ -7,7 +7,9 @@ const styles = theme => ({
     flexDirection: "column",
     position: "relative",
     backgroundColor: grey[100],
-    minHeight: "100vh"
+    minHeight: "100vh",
+    alignItems: "center",
+    justifyContent: "center"
   },
   loadingBar: {
     position: "fixed",
@@ -18,22 +20,15 @@ const styles = theme => ({
   container: {
     textAlign: "center",
     maxWidth: 450,
-    [theme.breakpoints.up("sm")]: {
-      width: "100%",
-      position: "absolute",
-      top: "40%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      maxWidth: 650
-    }
-  },
-  wrapper: {
+    width: "100%",
     position: "relative",
     backgroundColor: "#fff",
-    textAlign: "left",
     maxHeight: "100vh",
     padding: theme.spacing(8, 5, 4),
     borderRadius: theme.spacing(1),
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: 650
+    },
     [theme.breakpoints.down("sm")]: {
       height: "100vh",
       padding: theme.spacing(3),

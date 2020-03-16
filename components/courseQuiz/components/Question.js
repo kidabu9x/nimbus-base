@@ -8,7 +8,9 @@ import Pairing from "./Question/Pairing";
 import Actions from "./Question/Actions";
 
 const styles = () => ({
-  root: {}
+  root: {
+    textAlign: "left"
+  }
 });
 
 const Answers = props => {
@@ -45,7 +47,6 @@ class Question extends Component {
 
   componentDidMount() {
     const { questions, questionIndex } = this.props;
-    console.log(questions[questionIndex]);
     this.setState({
       question: questions[questionIndex] ? questions[questionIndex] : null
     });

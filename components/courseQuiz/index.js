@@ -260,20 +260,16 @@ class Quiz extends Component {
       <Layout>
         <div className={classes.root}>
           <div className={classes.container}>
-            <div className={classes.wrapper}>
-              {loading ? (
-                <LinearProgress className={classes.loadingBar} />
-              ) : null}
+            {loading ? <LinearProgress className={classes.loadingBar} /> : null}
 
-              <Step />
+            <Step />
 
-              <ResultModal
-                open={showResultModal}
-                questions={questions}
-                toggle={this.toggleShowResultModal}
-              />
-              <ErrorModal open={showError} toggle={this.toggleError} />
-            </div>
+            <ResultModal
+              open={showResultModal}
+              questions={questions}
+              toggle={this.toggleShowResultModal}
+            />
+            <ErrorModal open={showError} toggle={this.toggleError} />
           </div>
         </div>
       </Layout>
